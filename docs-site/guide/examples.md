@@ -1,5 +1,6 @@
 ---
 title: Examples
+description: Annotated example scripts — bulk lead import, DNC list sync, and real-time agent monitoring dashboard.
 ---
 
 # Examples

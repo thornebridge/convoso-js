@@ -1,4 +1,6 @@
 ---
+title: convoso-js — TypeScript SDK for the Convoso API
+description: Zero-dependency TypeScript SDK for the Convoso API with auto-pagination, retry logic, request hooks, and 37 fully typed endpoints.
 layout: home
 hero:
   name: convoso-js

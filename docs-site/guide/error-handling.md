@@ -1,5 +1,6 @@
 ---
 title: Error Handling
+description: Handle Convoso API errors with typed error classes, the .description getter, and a full table of 44 known error codes.
 ---
 
 # Error Handling

@@ -1,5 +1,6 @@
 ---
 title: Lead Validation API
+description: Convoso Lead Validation API reference — validate leads against criteria before insertion.
 ---
 
 # Lead Validation API

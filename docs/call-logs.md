@@ -1,5 +1,6 @@
 ---
 title: Call Logs API
+description: Convoso Call Logs API reference — retrieve and update call history records with full filtering and pagination.
 ---
 
 # Call Logs API

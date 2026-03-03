@@ -1,5 +1,6 @@
 ---
 title: Authentication
+description: Convoso API authentication — obtaining auth tokens, security best practices, and request examples in multiple languages.
 ---
 
 # Authentication

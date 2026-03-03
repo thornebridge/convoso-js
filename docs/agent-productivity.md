@@ -1,5 +1,6 @@
 ---
 title: Agent Productivity API
+description: Convoso Agent Productivity API reference — detailed productivity metrics and event tracking for agents.
 ---
 
 # Agent Productivity API

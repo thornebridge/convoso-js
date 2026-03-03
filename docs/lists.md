@@ -1,5 +1,6 @@
 ---
 title: Lists API
+description: Convoso Lists API reference — create, search, update, and delete lead lists with full parameter documentation.
 ---
 
 # Lists API

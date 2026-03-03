@@ -1,5 +1,6 @@
 ---
 title: Leads API
+description: Convoso Leads API reference — search, insert, update, delete leads and retrieve call recordings with full parameter docs.
 ---
 
 # Leads API

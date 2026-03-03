@@ -1,5 +1,6 @@
 ---
 title: Users API
+description: Convoso Users API reference — search user profiles and retrieve agent call recordings.
 ---
 
 # Users API

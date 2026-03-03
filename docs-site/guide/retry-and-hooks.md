@@ -1,5 +1,6 @@
 ---
 title: Retry & Hooks
+description: Automatic retry with exponential backoff, Retry-After support, and onRequest/onResponse hooks for logging and middleware.
 ---
 
 # Retry & Hooks

@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+description: Install convoso-js, configure your auth token, and make your first Convoso API call in under a minute.
 ---
 
 # Getting Started

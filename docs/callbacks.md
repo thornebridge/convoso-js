@@ -1,5 +1,6 @@
 ---
 title: Callbacks API
+description: Convoso Callbacks API reference — schedule, search, update, and delete callback requests with parameter docs.
 ---
 
 # Callbacks API

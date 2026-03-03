@@ -1,5 +1,6 @@
 ---
 title: API Reference Overview
+description: Complete reference for all 37 Convoso API endpoints — authentication, request format, response shapes, and error handling.
 ---
 
 # API Reference

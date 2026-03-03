@@ -1,5 +1,6 @@
 ---
 title: Revenue API
+description: Convoso Revenue API reference — update revenue and return values on call log records.
 ---
 
 # Revenue API

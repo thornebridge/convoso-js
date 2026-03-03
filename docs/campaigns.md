@@ -1,5 +1,6 @@
 ---
 title: Campaigns API
+description: Convoso Campaigns API reference — search campaigns and control campaign status (activate/deactivate).
 ---
 
 # Campaigns API

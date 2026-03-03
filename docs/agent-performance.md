@@ -1,5 +1,6 @@
 ---
 title: Agent Performance API
+description: Convoso Agent Performance API reference — retrieve agent call metrics, talk time, and conversion rates by date range.
 ---
 
 # Agent Performance API

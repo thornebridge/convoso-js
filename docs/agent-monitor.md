@@ -1,5 +1,6 @@
 ---
 title: Agent Monitor API
+description: Convoso Agent Monitor API reference — real-time agent status, campaign queue metrics, and force-logout.
 ---
 
 # Agent Monitor API

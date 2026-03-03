@@ -1,17 +1,101 @@
-import { defineConfig } from 'vitepress';
+import { defineConfig, type HeadConfig } from 'vitepress';
+
+const HOSTNAME = 'https://thornebridge.github.io';
+const BASE = '/convoso-js/';
+const SITE_URL = `${HOSTNAME}${BASE}`;
+const OG_IMAGE = `${HOSTNAME}${BASE}og-image.png`;
+const SITE_TITLE = 'convoso-js';
+const SITE_DESCRIPTION = 'Unofficial TypeScript SDK for the Convoso API — zero dependencies, fully typed, with auto-pagination, retry logic, and request hooks.';
 
 export default defineConfig({
-  title: 'convoso-js',
-  description: 'Unofficial TypeScript SDK for the Convoso API',
-  base: '/convoso-js/',
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  base: BASE,
   lastUpdated: true,
+  cleanUrls: true,
+
+  sitemap: {
+    hostname: SITE_URL,
+  },
 
   head: [
-    ['link', { rel: 'icon', href: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>%F0%9F%9F%AA</text></svg>' }],
+    // Favicon
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${BASE}favicon.svg` }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: `${BASE}favicon-32.png` }],
+
+    // Theme
     ['meta', { name: 'theme-color', content: '#7856ff' }],
-    ['meta', { property: 'og:title', content: 'convoso-js' }],
-    ['meta', { property: 'og:description', content: 'Unofficial TypeScript SDK for the Convoso API' }],
+    ['meta', { name: 'color-scheme', content: 'dark light' }],
+
+    // OG — static tags shared across all pages (per-page title/desc/url via transformPageData)
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'convoso-js' }],
+    ['meta', { property: 'og:locale', content: 'en_US' }],
+    ['meta', { property: 'og:image', content: OG_IMAGE }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:type', content: 'image/png' }],
+    ['meta', { property: 'og:image:alt', content: 'convoso-js — TypeScript SDK for the Convoso API' }],
+
+    // Twitter Card — static tags (per-page title/desc via transformPageData)
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: OG_IMAGE }],
+
+    // SEO — static
+    ['meta', { name: 'author', content: 'Thornebridge' }],
+    ['meta', { name: 'robots', content: 'index, follow' }],
+    ['meta', { name: 'keywords', content: 'convoso, api, sdk, typescript, javascript, call center, dialer, leads, dnc, node.js' }],
+
+    // JSON-LD structured data
+    ['script', { type: 'application/ld+json' }, JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareSourceCode',
+      name: 'convoso-js',
+      description: SITE_DESCRIPTION,
+      url: SITE_URL,
+      codeRepository: 'https://github.com/thornebridge/convoso-js',
+      programmingLanguage: 'TypeScript',
+      runtimePlatform: 'Node.js',
+      license: 'https://opensource.org/licenses/MIT',
+      author: {
+        '@type': 'Organization',
+        name: 'Thornebridge',
+        url: 'https://github.com/thornebridge',
+      },
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+    })],
   ],
+
+  transformPageData(pageData) {
+    // Build per-page canonical URL
+    const pagePath = pageData.relativePath
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '');
+    const canonicalUrl = `${SITE_URL}${pagePath}`;
+
+    // Build page title for OG
+    const pageTitle = pageData.frontmatter.title
+      ? `${pageData.frontmatter.title} | ${SITE_TITLE}`
+      : SITE_TITLE;
+
+    const pageDescription = pageData.frontmatter.description || SITE_DESCRIPTION;
+
+    // Merge into frontmatter.head for per-page <head> tags
+    const head: HeadConfig[] = [
+      ['meta', { property: 'og:title', content: pageTitle }],
+      ['meta', { property: 'og:description', content: pageDescription }],
+      ['meta', { property: 'og:url', content: canonicalUrl }],
+      ['meta', { name: 'twitter:title', content: pageTitle }],
+      ['meta', { name: 'twitter:description', content: pageDescription }],
+      ['link', { rel: 'canonical', href: canonicalUrl }],
+    ];
+
+    return { frontmatter: { head } };
+  },
 
   markdown: {
     lineNumbers: true,
@@ -20,13 +104,21 @@ export default defineConfig({
   themeConfig: {
     search: { provider: 'local' },
 
+    siteTitle: 'convoso-js',
+
     outline: { level: [2, 3] },
 
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'API Reference', link: '/api-reference/' },
       { text: 'Resources', link: '/resources/' },
-      { text: 'v0.1.0', link: 'https://www.npmjs.com/package/convoso-js' },
+      {
+        text: 'v0.1.0',
+        items: [
+          { text: 'npm', link: 'https://www.npmjs.com/package/convoso-js' },
+          { text: 'Changelog', link: 'https://github.com/thornebridge/convoso-js/releases' },
+        ],
+      },
     ],
 
     sidebar: {

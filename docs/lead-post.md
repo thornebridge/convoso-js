@@ -1,5 +1,6 @@
 ---
 title: Lead Post API
+description: Convoso Lead Post API reference — insert leads with criteria-based validation for quality control.
 ---
 
 # Lead Post API

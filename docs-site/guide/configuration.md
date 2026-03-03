@@ -1,5 +1,6 @@
 ---
 title: Configuration
+description: Configure the convoso-js client — auth tokens, custom base URLs, fetch implementations, retry, and request hooks.
 ---
 
 # Configuration

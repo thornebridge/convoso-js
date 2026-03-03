@@ -1,5 +1,6 @@
 ---
 title: SDK Resource Map
+description: Full mapping of convoso-js client resources to SDK methods, API endpoints, and pagination support.
 ---
 
 # SDK Resource Map

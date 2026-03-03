@@ -1,5 +1,6 @@
 ---
 title: SMS Opt-Out API
+description: Convoso SMS Opt-Out API reference — search, insert, and update SMS opt-out list entries for compliance.
 ---
 
 # SMS Opt-Out API

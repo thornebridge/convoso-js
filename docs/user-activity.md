@@ -1,5 +1,6 @@
 ---
 title: User Activity API
+description: Convoso User Activity API reference — search real-time agent availability and activity logs.
 ---
 
 # User Activity API

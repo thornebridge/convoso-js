@@ -1,5 +1,6 @@
 ---
 title: Auto-Pagination
+description: Use async generator methods to automatically paginate through all Convoso API results without managing offsets.
 ---
 
 # Auto-Pagination

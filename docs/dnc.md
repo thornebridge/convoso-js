@@ -1,5 +1,6 @@
 ---
 title: DNC (Do Not Call) API
+description: Convoso DNC API reference — search, insert, update, and delete Do-Not-Call list entries with campaign-level and global scope.
 ---
 
 # DNC (Do Not Call) API

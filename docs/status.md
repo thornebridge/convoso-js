@@ -1,5 +1,6 @@
 ---
 title: Status API
+description: Convoso Status API reference — search, create, and update lead status codes for disposition tracking.
 ---
 
 # Status API
