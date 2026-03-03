@@ -1,3 +1,7 @@
+---
+title: Agent Performance API
+---
+
 # Agent Performance API
 
 Retrieve performance metrics for agents over a date range.

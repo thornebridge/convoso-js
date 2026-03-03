@@ -1,3 +1,7 @@
+---
+title: Agent Monitor API
+---
+
 # Agent Monitor API
 
 Real-time monitoring of agent activity, campaigns, and queues.

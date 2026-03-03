@@ -1,3 +1,7 @@
+---
+title: Leads API
+---
+
 # Leads API
 
 Lead data management, search, and retrieval.

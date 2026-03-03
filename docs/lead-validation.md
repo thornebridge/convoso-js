@@ -1,3 +1,7 @@
+---
+title: Lead Validation API
+---
+
 # Lead Validation API
 
 Validate leads against criteria without full insertion.

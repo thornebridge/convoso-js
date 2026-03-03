@@ -1,3 +1,7 @@
+---
+title: Authentication
+---
+
 # Authentication
 
 All Convoso API endpoints require authentication via an `auth_token` parameter.

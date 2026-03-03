@@ -1,3 +1,7 @@
+---
+title: Call Logs API
+---
+
 # Call Logs API
 
 Record retrieval and management of call history.

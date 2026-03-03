@@ -1,3 +1,7 @@
+---
+title: User Activity API
+---
+
 # User Activity API
 
 Real-time agent availability and activity tracking.

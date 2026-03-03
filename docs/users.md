@@ -1,3 +1,7 @@
+---
+title: Users API
+---
+
 # Users API
 
 User profile and recording management.

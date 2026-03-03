@@ -28,7 +28,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run typecheck && npm run build && npm test"
+    "prepublishOnly": "npm run typecheck && npm run build && npm test",
+    "docs:copy": "cp docs/*.md docs-site/api-reference/",
+    "docs:dev": "npm run docs:copy && vitepress dev docs-site",
+    "docs:build": "npm run docs:copy && vitepress build docs-site",
+    "docs:preview": "vitepress preview docs-site"
   },
   "keywords": [
     "convoso",
@@ -52,6 +56,7 @@
     "@types/node": "^22.0.0",
     "tsup": "^8.4.0",
     "typescript": "^5.7.0",
+    "vitepress": "^1.6.4",
     "vitest": "^3.0.0"
   }
 }

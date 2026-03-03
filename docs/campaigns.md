@@ -1,3 +1,7 @@
+---
+title: Campaigns API
+---
+
 # Campaigns API
 
 Campaign management and status control.
