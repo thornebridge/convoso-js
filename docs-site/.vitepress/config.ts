@@ -84,17 +84,16 @@ export default defineConfig({
 
     const pageDescription = pageData.frontmatter.description || SITE_DESCRIPTION;
 
-    // Merge into frontmatter.head for per-page <head> tags
-    const head: HeadConfig[] = [
+    // Append per-page <head> tags (mutate directly to preserve hero/features/layout)
+    pageData.frontmatter.head ??= [];
+    pageData.frontmatter.head.push(
       ['meta', { property: 'og:title', content: pageTitle }],
       ['meta', { property: 'og:description', content: pageDescription }],
       ['meta', { property: 'og:url', content: canonicalUrl }],
       ['meta', { name: 'twitter:title', content: pageTitle }],
       ['meta', { name: 'twitter:description', content: pageDescription }],
       ['link', { rel: 'canonical', href: canonicalUrl }],
-    ];
-
-    return { frontmatter: { head } };
+    );
   },
 
   markdown: {

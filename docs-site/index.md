@@ -7,7 +7,7 @@ hero:
   text: TypeScript SDK for the Convoso API
   tagline: Zero dependencies. Fully typed. Auto-pagination, retry, and hooks built in.
   image:
-    src: /convoso-js/convoso-logo.svg
+    src: /convoso-logo.svg
     alt: Convoso
   actions:
     - theme: brand
