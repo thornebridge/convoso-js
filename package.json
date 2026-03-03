@@ -50,6 +50,10 @@
   ],
   "author": "Thornebridge",
   "license": "MIT",
+  "homepage": "https://thornebridge.github.io/convoso-js/",
+  "bugs": {
+    "url": "https://github.com/thornebridge/convoso-js/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thornebridge/convoso-js.git"

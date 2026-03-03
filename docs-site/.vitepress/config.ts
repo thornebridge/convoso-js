@@ -131,7 +131,7 @@ export default defineConfig({
       { text: 'API Reference', link: '/api-reference/' },
       { text: 'Resources', link: '/resources/' },
       {
-        text: 'v0.1.0',
+        text: 'v0.1.1',
         items: [
           { text: 'npm', link: 'https://www.npmjs.com/package/convoso-js' },
           { text: 'Changelog', link: 'https://github.com/thornebridge/convoso-js/releases' },
