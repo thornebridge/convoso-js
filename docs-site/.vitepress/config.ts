@@ -63,6 +63,7 @@ export default defineConfig({
       {
         src: 'https://context7.com/widget.js',
         'data-library': '/thornebridge/convoso-js',
+        'data-color': '#7856ff',
         async: '',
       },
     ],
