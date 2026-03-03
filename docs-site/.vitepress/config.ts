@@ -46,6 +46,9 @@ export default defineConfig({
     ['meta', { name: 'robots', content: 'index, follow' }],
     ['meta', { name: 'keywords', content: 'convoso, api, sdk, typescript, javascript, call center, dialer, leads, dnc, node.js' }],
 
+    // Context7 chat widget
+    ['script', { src: 'https://context7.com/widget.js', 'data-library': '/thornebridge/convoso-js' }],
+
     // JSON-LD structured data
     ['script', { type: 'application/ld+json' }, JSON.stringify({
       '@context': 'https://schema.org',
