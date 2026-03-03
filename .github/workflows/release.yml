@@ -40,9 +40,10 @@ jobs:
       - run: npm run build
       - name: Publish with OIDC provenance
         run: |
-          # Strip the _authToken placeholder that setup-node writes so npm
-          # falls back to OIDC token exchange (trusted publishing).
-          sed -i '/_authToken/d' "$HOME/.npmrc"
+          # Remove _authToken line from the .npmrc that setup-node created
+          # and unset NODE_AUTH_TOKEN so npm falls back to OIDC trusted publishing.
+          sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG"
+          unset NODE_AUTH_TOKEN
           npm publish --provenance --access public
 
   github-release:
