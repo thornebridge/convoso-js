@@ -1,0 +1,2565 @@
+{
+  "apiVersion": "1.0",
+  "baseUrl": "https://api.convoso.com/v1",
+  "documentation": "Convoso API Documentation Index",
+  "lastUpdated": "2026-03-03",
+  "endpoints": [
+    {
+      "id": "agent-monitor-logout",
+      "method": "POST",
+      "path": "/agent-monitor/logout",
+      "description": "Logout agents from the system",
+      "category": "Agent Monitor API",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": true,
+          "description": "User ID for the agent to be logged out"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "success",
+            "type": "boolean",
+            "description": "Success status of the logout operation"
+          }
+        ]
+      },
+      "example": {
+        "request": "POST https://api.convoso.com/v1/agent-monitor/logout\nContent-Type: application/x-www-form-urlencoded\n\nauth_token=abc123&user_id=12345",
+        "response": {
+          "success": true
+        }
+      }
+    },
+    {
+      "id": "agent-monitor-search",
+      "method": "POST",
+      "path": "/agent-monitor/search",
+      "description": "Get real-time monitoring data about agents, campaigns, and queues",
+      "category": "Agent Monitor API",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        },
+        {
+          "name": "queue_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by queue ID"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by user ID"
+        },
+        {
+          "name": "filter_by_skill_options",
+          "type": "string",
+          "required": false,
+          "description": "Filter by skill options (comma-separated)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "agents",
+            "type": "array",
+            "description": "Array of agent objects with real-time data",
+            "subfields": [
+              { "name": "user_id", "type": "string", "description": "Unique agent ID" },
+              { "name": "user_full_name", "type": "string", "description": "Full name of agent" },
+              { "name": "campaign_id", "type": "string", "description": "Current campaign ID" },
+              { "name": "campaign_name", "type": "string", "description": "Current campaign name" },
+              { "name": "queue_id", "type": "string", "description": "Current queue ID" },
+              { "name": "queue_name", "type": "string", "description": "Current queue name" },
+              { "name": "extension", "type": "string", "description": "Agent extension number" },
+              { "name": "channel_type", "type": "string", "description": "Communication channel type" },
+              { "name": "call_type", "type": "string", "description": "Type of current call" },
+              { "name": "calls_today", "type": "integer", "description": "Number of calls made today" },
+              { "name": "total_calls", "type": "integer", "description": "Total calls for session" },
+              { "name": "status", "type": "string", "description": "Current status code" },
+              { "name": "status_label", "type": "string", "description": "Human-readable status label" },
+              { "name": "status_time_sec", "type": "integer", "description": "Seconds in current status" },
+              { "name": "status_time_mmss", "type": "string", "description": "Time in MM:SS format" }
+            ]
+          },
+          {
+            "name": "call_data",
+            "type": "object",
+            "description": "Aggregated call statistics"
+          },
+          {
+            "name": "queue_dialable_leads",
+            "type": "integer",
+            "description": "Number of dialable leads in queue"
+          },
+          {
+            "name": "queue_calls_today",
+            "type": "integer",
+            "description": "Total calls in queue for today"
+          },
+          {
+            "name": "agent_total",
+            "type": "integer",
+            "description": "Total agents"
+          },
+          {
+            "name": "agent_incall",
+            "type": "integer",
+            "description": "Agents currently in a call"
+          },
+          {
+            "name": "agent_ready",
+            "type": "integer",
+            "description": "Agents ready to take calls"
+          },
+          {
+            "name": "agent_paused",
+            "type": "integer",
+            "description": "Agents currently paused"
+          }
+        ]
+      }
+    },
+    {
+      "id": "agent-performance-search",
+      "method": "POST",
+      "path": "/agent-performance/search",
+      "description": "Retrieve performance metrics for agents over a date range",
+      "category": "Agent Performance",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "date_start",
+          "type": "string",
+          "required": false,
+          "description": "Start date in YYYY-MM-DD format"
+        },
+        {
+          "name": "date_end",
+          "type": "string",
+          "required": false,
+          "description": "End date in YYYY-MM-DD format"
+        },
+        {
+          "name": "campaign_ids",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign IDs (comma-separated)"
+        },
+        {
+          "name": "list_ids",
+          "type": "string",
+          "required": false,
+          "description": "Filter by list IDs (comma-separated)"
+        },
+        {
+          "name": "queue_ids",
+          "type": "string",
+          "required": false,
+          "description": "Filter by queue IDs (comma-separated)"
+        },
+        {
+          "name": "user_ids",
+          "type": "string",
+          "required": false,
+          "description": "Filter by user IDs (comma-separated)"
+        },
+        {
+          "name": "status_ids",
+          "type": "string",
+          "required": false,
+          "description": "Filter by status IDs (comma-separated)"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "fields": [
+          { "name": "user_id", "type": "string", "description": "Agent user ID" },
+          { "name": "name", "type": "string", "description": "Agent name" },
+          { "name": "calls", "type": "integer", "description": "Total calls" },
+          { "name": "human_answered", "type": "integer", "description": "Calls answered by human" },
+          { "name": "talk_sec_pt", "type": "number", "description": "Talk time percentage" },
+          { "name": "wait_sec_pt", "type": "number", "description": "Wait time percentage" },
+          { "name": "pause_sec_pt", "type": "number", "description": "Pause time percentage" },
+          { "name": "wrap_sec_pt", "type": "number", "description": "Wrap-up time percentage" },
+          { "name": "talk_sec", "type": "string", "description": "Total talk time in HH:MM:SS" },
+          { "name": "wait_sec", "type": "string", "description": "Total wait time in HH:MM:SS" },
+          { "name": "pause_sec", "type": "string", "description": "Total pause time in HH:MM:SS" },
+          { "name": "wrap_sec", "type": "string", "description": "Total wrap-up time in HH:MM:SS" },
+          { "name": "total_time", "type": "string", "description": "Total time in HH:MM:SS" },
+          { "name": "call_type", "type": "string", "description": "Type of calls (inbound/outbound)" }
+        ]
+      }
+    },
+    {
+      "id": "agent-productivity-search",
+      "method": "POST",
+      "path": "/agent-productivity/search",
+      "description": "Retrieve detailed productivity metrics for agents",
+      "category": "Agent Productivity",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "date_start",
+          "type": "string",
+          "required": false,
+          "description": "Start date in YYYY-MM-DD format"
+        },
+        {
+          "name": "date_end",
+          "type": "string",
+          "required": false,
+          "description": "End date in YYYY-MM-DD format"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        },
+        {
+          "name": "agent_emails",
+          "type": "string",
+          "required": false,
+          "description": "Filter by agent emails (comma-separated)"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default/max 1000)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "entries",
+            "type": "array",
+            "description": "Array of productivity entries",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Entry ID" },
+              { "name": "user_id", "type": "string", "description": "Agent user ID" },
+              { "name": "state", "type": "string", "description": "Current state (LOGIN/Ready/NotReady/LogOut)" },
+              { "name": "availability_code", "type": "string", "description": "Availability status code" },
+              { "name": "campaign_id", "type": "string", "description": "Campaign ID" },
+              { "name": "event_epoch", "type": "integer", "description": "Unix timestamp of event" },
+              { "name": "event_sec", "type": "integer", "description": "Seconds since event" },
+              { "name": "created_at", "type": "string", "description": "Creation timestamp" },
+              { "name": "user_name", "type": "string", "description": "Agent name" },
+              { "name": "campaign_name", "type": "string", "description": "Campaign name" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "call-log-update",
+      "method": "POST",
+      "path": "/log/update",
+      "description": "Update extra field values for specific call logs",
+      "category": "Call Logs",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "call_log_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the call log to update"
+        },
+        {
+          "name": "extra_field_01",
+          "type": "string",
+          "required": false,
+          "description": "Custom extra field 01 value"
+        },
+        {
+          "name": "extra_field_02",
+          "type": "string",
+          "required": false,
+          "description": "Custom extra field 02 value"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          { "name": "id", "type": "string", "description": "Call log ID" },
+          { "name": "lead_id", "type": "string", "description": "Associated lead ID" },
+          { "name": "list_id", "type": "string", "description": "Associated list ID" },
+          { "name": "campaign_id", "type": "string", "description": "Associated campaign ID" },
+          { "name": "user_id", "type": "string", "description": "Agent user ID" },
+          { "name": "phone_number", "type": "string", "description": "Phone number called" },
+          { "name": "status", "type": "string", "description": "Call status code" },
+          { "name": "call_length", "type": "integer", "description": "Call duration in seconds" },
+          { "name": "call_date", "type": "string", "description": "Call date and time" },
+          { "name": "recording", "type": "array", "description": "Array of recording objects" }
+        ]
+      }
+    },
+    {
+      "id": "call-log-retrieve",
+      "method": "POST",
+      "path": "/log/retrieve",
+      "description": "Retrieve call log records with extensive filtering options",
+      "category": "Call Logs",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Call log ID"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead ID"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        },
+        {
+          "name": "queue_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by queue ID"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by list ID"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by user ID"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "description": "Filter by call status"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Filter by phone number"
+        },
+        {
+          "name": "number_dialed",
+          "type": "string",
+          "required": false,
+          "description": "Filter by number dialed"
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead first name"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead last name"
+        },
+        {
+          "name": "start_time",
+          "type": "string",
+          "required": false,
+          "description": "Start time in YYYY-MM-DD HH:MM:SS format"
+        },
+        {
+          "name": "end_time",
+          "type": "string",
+          "required": false,
+          "description": "End time in YYYY-MM-DD HH:MM:SS format"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 10)"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        },
+        {
+          "name": "order",
+          "type": "string",
+          "required": false,
+          "description": "Sort order: asc or desc"
+        },
+        {
+          "name": "call_type",
+          "type": "string",
+          "required": false,
+          "description": "Filter by call type"
+        },
+        {
+          "name": "called_count",
+          "type": "integer",
+          "required": false,
+          "description": "Filter by number of times called"
+        },
+        {
+          "name": "include_recordings",
+          "type": "integer",
+          "required": false,
+          "description": "Include recordings: 0 or 1"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "offset", "type": "integer", "description": "Pagination offset" },
+          { "name": "limit", "type": "integer", "description": "Results per page" },
+          { "name": "total_found", "type": "integer", "description": "Total matching records" },
+          {
+            "name": "results",
+            "type": "array",
+            "description": "Array of call log objects",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Call log ID" },
+              { "name": "lead_id", "type": "string", "description": "Associated lead ID" },
+              { "name": "phone_number", "type": "string", "description": "Phone number called" },
+              { "name": "status", "type": "string", "description": "Call status code" },
+              { "name": "call_length", "type": "integer", "description": "Duration in seconds" },
+              { "name": "call_date", "type": "string", "description": "Date and time of call" },
+              { "name": "user_id", "type": "string", "description": "Agent user ID" },
+              { "name": "campaign_id", "type": "string", "description": "Campaign ID" },
+              { "name": "recording", "type": "array", "description": "Array of recording objects" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "callback-update",
+      "method": "POST",
+      "path": "/callbacks/update",
+      "description": "Update details of a scheduled callback",
+      "category": "Callbacks",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "callback_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the callback to update"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Assign callback to different user"
+        },
+        {
+          "name": "recipient",
+          "type": "string",
+          "required": false,
+          "description": "Recipient type: system or personal"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "required": false,
+          "description": "Callback comments"
+        },
+        {
+          "name": "callback_time_zone",
+          "type": "number",
+          "required": false,
+          "description": "Timezone offset (e.g., -7.00)"
+        },
+        {
+          "name": "callback_time",
+          "type": "string",
+          "required": false,
+          "description": "Callback time in YYYY-MM-DD hh:mm AM/PM format"
+        },
+        {
+          "name": "callback_status",
+          "type": "string",
+          "required": false,
+          "description": "Status: dismissed"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "callback_id", "type": "string", "description": "Updated callback ID" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "callback-search",
+      "method": "POST",
+      "path": "/callbacks/search",
+      "description": "Search for scheduled system or personal callbacks",
+      "category": "Callbacks",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "start_date",
+          "type": "string",
+          "required": false,
+          "description": "Start date in YYYY-MM-DD format"
+        },
+        {
+          "name": "end_date",
+          "type": "string",
+          "required": false,
+          "description": "End date in YYYY-MM-DD format"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 20)"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by callback ID"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead ID"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by list ID"
+        },
+        {
+          "name": "recipient",
+          "type": "string",
+          "required": false,
+          "description": "Filter by recipient: System or Personal"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by user ID"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "required": false,
+          "description": "Filter by stage: PENDING, DISMISSED, COMPLETED, MISSED, PASTDUE"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "offset", "type": "integer", "description": "Pagination offset" },
+          { "name": "limit", "type": "integer", "description": "Results per page" },
+          { "name": "total", "type": "integer", "description": "Total matching records" },
+          {
+            "name": "results",
+            "type": "array",
+            "description": "Array of callback objects",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Callback ID" },
+              { "name": "lead_id", "type": "string", "description": "Associated lead ID" },
+              { "name": "list_id", "type": "string", "description": "Associated list ID" },
+              { "name": "campaign_id", "type": "string", "description": "Associated campaign ID" },
+              { "name": "callback_time", "type": "string", "description": "Scheduled callback time" },
+              { "name": "stage", "type": "string", "description": "Current stage status" },
+              { "name": "recipient", "type": "string", "description": "Callback recipient type" },
+              { "name": "comments", "type": "string", "description": "Callback comments" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "callback-delete",
+      "method": "POST",
+      "path": "/callbacks/delete",
+      "description": "Delete a callback entry",
+      "category": "Callbacks",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "callback_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the callback to delete"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status of deletion" }
+        ]
+      }
+    },
+    {
+      "id": "callback-insert",
+      "method": "POST",
+      "path": "/callbacks/insert",
+      "description": "Insert a new callback",
+      "category": "Callbacks",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the lead for callback"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Assign callback to specific user"
+        },
+        {
+          "name": "recipient",
+          "type": "string",
+          "required": true,
+          "description": "Recipient type: system or personal"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "required": false,
+          "description": "Callback comments"
+        },
+        {
+          "name": "callback_time_zone",
+          "type": "number",
+          "required": true,
+          "description": "Timezone offset (e.g., -7.00)"
+        },
+        {
+          "name": "callback_time",
+          "type": "string",
+          "required": true,
+          "description": "Callback time in YYYY-MM-DD hh:mm AM/PM format"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "callback_id", "type": "string", "description": "ID of newly created callback" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "campaign-search",
+      "method": "POST",
+      "path": "/campaigns/search",
+      "description": "Get list of all campaigns",
+      "category": "Campaigns",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "data",
+            "type": "array",
+            "description": "Array of campaign objects",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Campaign ID" },
+              { "name": "name", "type": "string", "description": "Campaign name" },
+              { "name": "status", "type": "string", "description": "Campaign status: Y or N" },
+              { "name": "last_call_date", "type": "object", "description": "Last call date object with date and timezone info" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "campaign-status",
+      "method": "POST",
+      "path": "/campaigns/status",
+      "description": "Activate or deactivate a campaign",
+      "category": "Campaigns",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the campaign to update"
+        },
+        {
+          "name": "status",
+          "type": "boolean",
+          "required": true,
+          "description": "Status: true (active) or false (inactive)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status of the operation" }
+        ]
+      }
+    },
+    {
+      "id": "dnc-update",
+      "method": "POST",
+      "path": "/dnc/update",
+      "description": "Update a DNC (Do Not Call) record",
+      "category": "DNC",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "DNC ID to update"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Phone number to add to DNC"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": false,
+          "description": "Country/region phone code"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Campaign ID (0 for global DNC)"
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false,
+          "description": "Reason for DNC listing (leave blank for none)"
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "required": false,
+          "description": "Purpose of DNC entry"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          { "name": "id", "type": "integer", "description": "Updated DNC ID" }
+        ]
+      },
+      "errorCodes": [6004, 6008, 6026, 6056, 6057, 6058, 6059]
+    },
+    {
+      "id": "dnc-insert",
+      "method": "POST",
+      "path": "/dnc/insert",
+      "description": "Insert phone number into DNC list",
+      "category": "DNC",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": true,
+          "description": "Phone number to add to DNC"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": true,
+          "description": "Country/region phone code"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": true,
+          "description": "Campaign ID (0 for global DNC)"
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false,
+          "description": "Reason for DNC listing"
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "required": false,
+          "description": "Purpose of DNC entry"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          { "name": "id", "type": "integer", "description": "ID of newly created DNC entry" }
+        ]
+      },
+      "errorCodes": [6006, 6007, 6008, 6026, 6056, 6057, 6058]
+    },
+    {
+      "id": "dnc-search",
+      "method": "POST",
+      "path": "/dnc/search",
+      "description": "Search DNC list",
+      "category": "DNC",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "DNC ID"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Filter by phone number"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": false,
+          "description": "Filter by phone code"
+        },
+        {
+          "name": "insert_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter by insert date (YYYY-MM-DD)"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 100, max 1000)"
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false,
+          "description": "Filter by reason: -BLANK- or -NOTBLANK-"
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "required": false,
+          "description": "Filter by purpose"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "offset", "type": "integer", "description": "Pagination offset" },
+          { "name": "limit", "type": "integer", "description": "Results per page" },
+          { "name": "total", "type": "integer", "description": "Total matching records" },
+          {
+            "name": "entries",
+            "type": "array",
+            "description": "Array of DNC records",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "DNC ID" },
+              { "name": "phone_number", "type": "string", "description": "Phone number" },
+              { "name": "campaign_id", "type": "string", "description": "Campaign ID" },
+              { "name": "insert_date", "type": "string", "description": "Date added to DNC" },
+              { "name": "phone_code", "type": "string", "description": "Phone code" },
+              { "name": "campaign_name", "type": "string", "description": "Campaign name" }
+            ]
+          }
+        ]
+      },
+      "errorCodes": [6006, 6008, 6026, 6057, 6058]
+    },
+    {
+      "id": "dnc-delete",
+      "method": "POST",
+      "path": "/dnc/delete",
+      "description": "Remove entries from DNC lists",
+      "category": "DNC",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": true,
+          "description": "Phone number to remove from DNC"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": true,
+          "description": "Country/region phone code"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": true,
+          "description": "Campaign ID (0 for global)"
+        },
+        {
+          "name": "update_lead_status",
+          "type": "boolean",
+          "required": false,
+          "description": "Update associated lead status"
+        },
+        {
+          "name": "lead_status",
+          "type": "string",
+          "required": false,
+          "description": "Status to set on associated leads"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status of deletion" }
+        ]
+      },
+      "errorCodes": [6000, 6001, 6002, 6003, 6004, 6005]
+    },
+    {
+      "id": "lead-search",
+      "method": "POST",
+      "path": "/leads/search",
+      "description": "Retrieve leads with extensive filtering options",
+      "category": "Leads",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead ID"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by list ID"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by assigned user ID"
+        },
+        {
+          "name": "owner_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead owner ID"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "description": "Filter by lead status code"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 10, max 2000)"
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "required": false,
+          "description": "Filter by first name"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "required": false,
+          "description": "Filter by last name"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Filter by phone number"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": false,
+          "description": "Filter by email address"
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "required": false,
+          "description": "Filter by city"
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "required": false,
+          "description": "Filter by state"
+        },
+        {
+          "name": "postal_code",
+          "type": "string",
+          "required": false,
+          "description": "Filter by postal code"
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "required": false,
+          "description": "Filter by country"
+        },
+        {
+          "name": "date_of_birth",
+          "type": "string",
+          "required": false,
+          "description": "Filter by date of birth (YYYY-MM-DD)"
+        },
+        {
+          "name": "created_at_start_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter by creation date start"
+        },
+        {
+          "name": "created_at_end_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter by creation date end"
+        },
+        {
+          "name": "updated_at_start_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter by modification date start"
+        },
+        {
+          "name": "updated_at_end_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter by modification date end"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "results",
+            "type": "array",
+            "description": "Array of lead objects",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Lead ID" },
+              { "name": "first_name", "type": "string", "description": "First name" },
+              { "name": "last_name", "type": "string", "description": "Last name" },
+              { "name": "phone_number", "type": "string", "description": "Primary phone number" },
+              { "name": "email", "type": "string", "description": "Email address" },
+              { "name": "status", "type": "string", "description": "Lead status code" },
+              { "name": "list_id", "type": "string", "description": "Associated list ID" },
+              { "name": "created_at", "type": "string", "description": "Creation timestamp" },
+              { "name": "modified_at", "type": "string", "description": "Last modification timestamp" },
+              { "name": "address1", "type": "string", "description": "Street address" },
+              { "name": "city", "type": "string", "description": "City" },
+              { "name": "state", "type": "string", "description": "State/Province" },
+              { "name": "postal_code", "type": "string", "description": "Postal code" },
+              { "name": "country", "type": "string", "description": "Country" },
+              { "name": "carrier_name", "type": "string", "description": "Carrier name" },
+              { "name": "carrier_type", "type": "string", "description": "Carrier type (wireless/landline)" }
+            ]
+          },
+          { "name": "offset", "type": "integer", "description": "Pagination offset" },
+          { "name": "limit", "type": "integer", "description": "Results per page" }
+        ]
+      }
+    },
+    {
+      "id": "lead-get-recordings",
+      "method": "POST",
+      "path": "/leads/get-recordings",
+      "description": "Get all recordings for a lead",
+      "category": "Leads",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the lead"
+        },
+        {
+          "name": "start_time",
+          "type": "string",
+          "required": false,
+          "description": "Start time in YYYY-MM-DD HH:MM:SS format"
+        },
+        {
+          "name": "end_time",
+          "type": "string",
+          "required": false,
+          "description": "End time in YYYY-MM-DD HH:MM:SS format"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 10, max 100)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "entries",
+            "type": "array",
+            "description": "Array of recording objects",
+            "subfields": [
+              { "name": "recording_id", "type": "string", "description": "Recording ID" },
+              { "name": "lead_id", "type": "string", "description": "Associated lead ID" },
+              { "name": "start_time", "type": "string", "description": "Recording start time" },
+              { "name": "end_time", "type": "string", "description": "Recording end time" },
+              { "name": "seconds", "type": "integer", "description": "Duration in seconds" },
+              { "name": "url", "type": "string", "description": "Recording URL" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "lead-delete",
+      "method": "POST",
+      "path": "/leads/delete",
+      "description": "Delete a lead",
+      "category": "Leads",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the lead to delete"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status of deletion" }
+        ]
+      }
+    },
+    {
+      "id": "lead-insert",
+      "method": "POST",
+      "path": "/leads/insert",
+      "description": "Insert a new lead or update existing",
+      "category": "Leads",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": true,
+          "description": "List ID to add lead to"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": true,
+          "description": "Primary phone number"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": false,
+          "description": "Country phone code"
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "required": false,
+          "description": "First name"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "required": false,
+          "description": "Last name"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": false,
+          "description": "Email address"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "description": "Lead status code"
+        },
+        {
+          "name": "address1",
+          "type": "string",
+          "required": false,
+          "description": "Street address"
+        },
+        {
+          "name": "address2",
+          "type": "string",
+          "required": false,
+          "description": "Address line 2"
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "required": false,
+          "description": "City"
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "required": false,
+          "description": "State/Province"
+        },
+        {
+          "name": "postal_code",
+          "type": "string",
+          "required": false,
+          "description": "Postal code"
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "required": false,
+          "description": "Country"
+        },
+        {
+          "name": "hopper",
+          "type": "boolean",
+          "required": false,
+          "description": "Add to queue hopper"
+        },
+        {
+          "name": "hopper_priority",
+          "type": "integer",
+          "required": false,
+          "description": "Hopper priority (0-99)"
+        },
+        {
+          "name": "hopper_expires_in",
+          "type": "integer",
+          "required": false,
+          "description": "Hopper expiration in minutes (max 300)"
+        },
+        {
+          "name": "update_if_found",
+          "type": "boolean",
+          "required": false,
+          "description": "Update if lead already exists"
+        },
+        {
+          "name": "check_dup",
+          "type": "integer",
+          "required": false,
+          "description": "Duplicate check level (0-4)"
+        },
+        {
+          "name": "check_dnc",
+          "type": "boolean",
+          "required": false,
+          "description": "Check DNC list before adding"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "lead_id", "type": "string", "description": "ID of newly created/updated lead" }
+            ]
+          },
+          { "name": "id", "type": "string", "description": "Lead ID" }
+        ]
+      }
+    },
+    {
+      "id": "lead-update",
+      "method": "POST",
+      "path": "/leads/update",
+      "description": "Update specific lead",
+      "category": "Leads",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "lead_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the lead to update"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": false,
+          "description": "List ID"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Primary phone number"
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "required": false,
+          "description": "First name"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "required": false,
+          "description": "Last name"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": false,
+          "description": "Email address"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "description": "Lead status code"
+        },
+        {
+          "name": "address1",
+          "type": "string",
+          "required": false,
+          "description": "Street address"
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "required": false,
+          "description": "City"
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "required": false,
+          "description": "State/Province"
+        },
+        {
+          "name": "postal_code",
+          "type": "string",
+          "required": false,
+          "description": "Postal code"
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "required": false,
+          "description": "Country"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "lead_id", "type": "string", "description": "Updated lead ID" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "lead-post",
+      "method": "POST",
+      "path": "/lead-post-validation/insert",
+      "description": "Insert lead with criteria validation using criteria_key",
+      "category": "Lead Post",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "criteria_key",
+          "type": "string",
+          "required": true,
+          "description": "Criteria key for validation"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": true,
+          "description": "Phone number to validate and insert"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": false,
+          "description": "Country phone code"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "description": "Lead status code"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": false,
+          "description": "Email address"
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "required": false,
+          "description": "First name"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "required": false,
+          "description": "Last name"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "result", "type": "string", "description": "True if accepted, False if rejected" },
+          { "name": "lead_id", "type": "string", "description": "ID of created lead (if accepted)" },
+          { "name": "error_description", "type": "string", "description": "Error reason (if rejected)" }
+        ]
+      }
+    },
+    {
+      "id": "lead-validation-search",
+      "method": "POST",
+      "path": "/lead-validation/search",
+      "description": "Validate if a lead meets criteria without full insert",
+      "category": "Lead Validation",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "criteria_key",
+          "type": "string",
+          "required": true,
+          "description": "Criteria key for validation"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": true,
+          "description": "Phone number to validate"
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "required": false,
+          "description": "State (optional filter)"
+        },
+        {
+          "name": "postal_code",
+          "type": "string",
+          "required": false,
+          "description": "Postal code (optional filter)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Operation success" },
+          { "name": "result", "type": "string", "description": "Accepted or Denied" }
+        ]
+      }
+    },
+    {
+      "id": "list-update",
+      "method": "POST",
+      "path": "/lists/update",
+      "description": "Update an existing list",
+      "category": "List",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the list to update"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "List name (minimum 10 characters)"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Associated campaign ID"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "List description (0-255 characters)"
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "required": false,
+          "description": "Status: 1 (active) or 0 (inactive, default 1)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "list_id", "type": "string", "description": "Updated list ID" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "list-search",
+      "method": "POST",
+      "path": "/lists/search",
+      "description": "Search lists",
+      "category": "List",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "required": true,
+          "description": "Status: 0 (Inactive) or 1 (Active)"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by list ID"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "data",
+            "type": "array",
+            "description": "Array of list objects",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "List ID" },
+              { "name": "name", "type": "string", "description": "List name" },
+              { "name": "status", "type": "string", "description": "List status: Y or N" },
+              { "name": "last_called_at", "type": "string", "description": "Last call timestamp" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "list-delete",
+      "method": "POST",
+      "path": "/lists/delete",
+      "description": "Delete a list",
+      "category": "List",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "list_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the list to delete"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status of deletion" }
+        ]
+      }
+    },
+    {
+      "id": "list-insert",
+      "method": "POST",
+      "path": "/lists/insert",
+      "description": "Create a new list",
+      "category": "List",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "List name (minimum 10 characters)"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": true,
+          "description": "Associated campaign ID"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "List description (0-255 characters)"
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "required": false,
+          "description": "Status: 1 (active) or 0 (inactive, default 1)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "list_id", "type": "string", "description": "ID of newly created list" }
+            ]
+          },
+          { "name": "id", "type": "string", "description": "List ID" }
+        ]
+      }
+    },
+    {
+      "id": "revenue-update",
+      "method": "POST",
+      "path": "/revenue/update",
+      "description": "Update revenue for a call log entry",
+      "category": "Revenue",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "call_log_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the call log to update"
+        },
+        {
+          "name": "revenue",
+          "type": "number",
+          "required": false,
+          "description": "Revenue amount (double)"
+        },
+        {
+          "name": "return",
+          "type": "integer",
+          "required": false,
+          "description": "Return updated data: 1 for yes"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "call_log_id", "type": "string", "description": "Updated call log ID" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sms-opt-out-search",
+      "method": "POST",
+      "path": "/sms-opt-out/search",
+      "description": "Search SMS opt-out records",
+      "category": "SMS Opt-Out API",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by SMS opt-out record ID"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID (0 for global)"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Filter by phone number"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": false,
+          "description": "Filter by phone code"
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false,
+          "description": "Filter by reason: -BLANK- or -NOTBLANK-"
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "required": false,
+          "description": "Filter by purpose"
+        },
+        {
+          "name": "insert_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter by insert date (YYYY-MM-DD)"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0, max 1M)"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 100, max 1000)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Operation success" },
+          { "name": "offset", "type": "integer", "description": "Pagination offset" },
+          { "name": "limit", "type": "integer", "description": "Results per page" },
+          { "name": "total", "type": "integer", "description": "Total matching records" },
+          {
+            "name": "records",
+            "type": "array",
+            "description": "Array of SMS opt-out records",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Record ID" },
+              { "name": "phone_number", "type": "string", "description": "Opted-out phone number" },
+              { "name": "phone_code", "type": "string", "description": "Phone code" },
+              { "name": "reason", "type": "string", "description": "Reason for opt-out" },
+              { "name": "purpose", "type": "string", "description": "Purpose of SMS" },
+              { "name": "insert_date", "type": "string", "description": "Date opted out" },
+              { "name": "campaign_id", "type": "string", "description": "Campaign ID" },
+              { "name": "campaign_name", "type": "string", "description": "Campaign name" }
+            ]
+          }
+        ]
+      },
+      "errorCodes": [6006, 7231, 6008, 6026, 6057, 6058]
+    },
+    {
+      "id": "sms-opt-out-update",
+      "method": "POST",
+      "path": "/sms-opt-out/update",
+      "description": "Update SMS opt-out record",
+      "category": "SMS Opt-Out API",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "SMS opt-out record ID"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": false,
+          "description": "Phone code"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": false,
+          "description": "Phone number"
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false,
+          "description": "Reason (use -BLANK- to clear)"
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "required": false,
+          "description": "Purpose (use -BLANK- to clear)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "id", "type": "string", "description": "Updated record ID" }
+            ]
+          }
+        ]
+      },
+      "errorCodes": [6004, 6008, 6026, 6056, 6057, 6058, 6059, 4001, 4002]
+    },
+    {
+      "id": "sms-opt-out-insert",
+      "method": "POST",
+      "path": "/sms-opt-out/insert",
+      "description": "Insert SMS opt-out record",
+      "category": "SMS Opt-Out API",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "phone_number",
+          "type": "string",
+          "required": true,
+          "description": "Phone number to opt-out from SMS"
+        },
+        {
+          "name": "phone_code",
+          "type": "string",
+          "required": true,
+          "description": "Country/region phone code"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": true,
+          "description": "Campaign ID (0 for global)"
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false,
+          "description": "Reason for opt-out"
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "required": false,
+          "description": "Purpose of SMS"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" }
+        ]
+      },
+      "errorCodes": [6006, 6007, 6008, 6026, 6057, 6058]
+    },
+    {
+      "id": "status-search",
+      "method": "POST",
+      "path": "/status/search",
+      "description": "Query lead status codes",
+      "category": "Status",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "required": true,
+          "description": "Search by status abbreviation or description"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "data",
+            "type": "array",
+            "description": "Array of status objects",
+            "subfields": [
+              { "name": "status", "type": "string", "description": "Status code" },
+              { "name": "name", "type": "string", "description": "Status name" },
+              { "name": "final", "type": "string", "description": "Is final status: Y or N" },
+              { "name": "reached", "type": "string", "description": "Contact reached: Y or N" },
+              { "name": "success", "type": "string", "description": "Successful outcome: Y or N" },
+              { "name": "dnc", "type": "string", "description": "Add to DNC: Y or N" },
+              { "name": "callback", "type": "string", "description": "Allow callbacks: Y or N" },
+              { "name": "contact", "type": "string", "description": "Contact type: Y or N" },
+              { "name": "voicemail", "type": "string", "description": "Is voicemail: Y or N" },
+              { "name": "hex_color", "type": "string", "description": "Display color in hex" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "status-update",
+      "method": "POST",
+      "path": "/status/update",
+      "description": "Update existing lead status",
+      "category": "Status",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true,
+          "description": "Status code to update"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Status name"
+        },
+        {
+          "name": "hex_color",
+          "type": "string",
+          "required": false,
+          "description": "Display color in hex format"
+        },
+        {
+          "name": "final",
+          "type": "string",
+          "required": false,
+          "description": "Is final status: Y or N"
+        },
+        {
+          "name": "reached",
+          "type": "string",
+          "required": false,
+          "description": "Contact reached: Y or N"
+        },
+        {
+          "name": "success",
+          "type": "string",
+          "required": false,
+          "description": "Successful outcome: Y or N"
+        },
+        {
+          "name": "dnc",
+          "type": "string",
+          "required": false,
+          "description": "Add to DNC: Y or N"
+        },
+        {
+          "name": "callback",
+          "type": "string",
+          "required": false,
+          "description": "Allow callbacks: Y or N"
+        },
+        {
+          "name": "contact",
+          "type": "string",
+          "required": false,
+          "description": "Contact type: Y or N"
+        },
+        {
+          "name": "voicemail",
+          "type": "string",
+          "required": false,
+          "description": "Is voicemail: Y or N"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "status", "type": "string", "description": "Updated status code" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "status-insert",
+      "method": "POST",
+      "path": "/status/insert",
+      "description": "Create new lead status",
+      "category": "Status",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true,
+          "description": "Status code (2-6 characters)"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Status name"
+        },
+        {
+          "name": "hex_color",
+          "type": "string",
+          "required": false,
+          "description": "Display color in hex format"
+        },
+        {
+          "name": "final",
+          "type": "string",
+          "required": true,
+          "description": "Is final status: Y or N"
+        },
+        {
+          "name": "reached",
+          "type": "string",
+          "required": true,
+          "description": "Contact reached: Y or N"
+        },
+        {
+          "name": "success",
+          "type": "string",
+          "required": true,
+          "description": "Successful outcome: Y or N"
+        },
+        {
+          "name": "dnc",
+          "type": "string",
+          "required": true,
+          "description": "Add to DNC: Y or N"
+        },
+        {
+          "name": "callback",
+          "type": "string",
+          "required": true,
+          "description": "Allow callbacks: Y or N"
+        },
+        {
+          "name": "contact",
+          "type": "string",
+          "required": true,
+          "description": "Contact type: Y or N"
+        },
+        {
+          "name": "voicemail",
+          "type": "string",
+          "required": true,
+          "description": "Is voicemail: Y or N"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Success status" },
+          { "name": "code", "type": "integer", "description": "Response code: 200 for success" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Response data",
+            "subfields": [
+              { "name": "new", "type": "string", "description": "New entry indicator" },
+              { "name": "status", "type": "string", "description": "Newly created status code" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "user-activity-search",
+      "method": "POST",
+      "path": "/user-activity/search",
+      "description": "Get real-time agent availability data",
+      "category": "User Activity",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "campaign_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by campaign ID"
+        },
+        {
+          "name": "queue_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by queue ID"
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by user ID"
+        },
+        {
+          "name": "filter_by_skill_options",
+          "type": "string",
+          "required": false,
+          "description": "Filter by skill options (comma-separated)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          { "name": "success", "type": "boolean", "description": "Operation success" },
+          {
+            "name": "data",
+            "type": "object",
+            "description": "Availability data",
+            "subfields": [
+              { "name": "available_agents", "type": "integer", "description": "Number of available agents" },
+              { "name": "logged_in_agents", "type": "integer", "description": "Number of logged in agents" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "users-search",
+      "method": "POST",
+      "path": "/users/search",
+      "description": "Retrieve user profiles",
+      "category": "Users",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "user",
+          "type": "string",
+          "required": true,
+          "description": "Comma-delimited user emails to search"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 20)"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "fields": [
+          { "name": "id", "type": "string", "description": "User ID" },
+          { "name": "email", "type": "string", "description": "Email address" },
+          { "name": "first_name", "type": "string", "description": "First name" },
+          { "name": "last_name", "type": "string", "description": "Last name" },
+          { "name": "user_level", "type": "string", "description": "User privilege level" },
+          { "name": "status", "type": "string", "description": "User status" },
+          { "name": "last_login", "type": "string", "description": "Last login timestamp" },
+          { "name": "local_gmt", "type": "string", "description": "Local GMT offset" },
+          { "name": "connection_type", "type": "string", "description": "Connection type (VoIP/Desk/etc)" },
+          { "name": "extension", "type": "array", "description": "Array of assigned extensions" },
+          { "name": "acl_access_profile", "type": "string", "description": "Access control profile" },
+          { "name": "allow_queue_selection", "type": "boolean", "description": "Can select queues" },
+          { "name": "allow_callbacks", "type": "boolean", "description": "Can manage callbacks" },
+          { "name": "allow_transfers", "type": "boolean", "description": "Can transfer calls" }
+        ]
+      }
+    },
+    {
+      "id": "users-recordings",
+      "method": "POST",
+      "path": "/users/recordings",
+      "description": "Get recordings for a user",
+      "category": "Users",
+      "authentication": "Required (auth_token)",
+      "parameters": [
+        {
+          "name": "auth_token",
+          "type": "string",
+          "required": true,
+          "description": "Authentication token"
+        },
+        {
+          "name": "user",
+          "type": "string",
+          "required": true,
+          "description": "Comma-delimited user emails"
+        },
+        {
+          "name": "start_time",
+          "type": "string",
+          "required": false,
+          "description": "Start time in YYYY-MM-DD HH:MM:SS format"
+        },
+        {
+          "name": "end_time",
+          "type": "string",
+          "required": false,
+          "description": "End time in YYYY-MM-DD HH:MM:SS format"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (default 20)"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "description": "Pagination offset (default 0)"
+        }
+      ],
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "entries",
+            "type": "array",
+            "description": "Array of recording objects",
+            "subfields": [
+              { "name": "recording_id", "type": "string", "description": "Recording ID" },
+              { "name": "lead_id", "type": "string", "description": "Associated lead ID" },
+              { "name": "start_time", "type": "string", "description": "Recording start time" },
+              { "name": "end_time", "type": "string", "description": "Recording end time" },
+              { "name": "seconds", "type": "integer", "description": "Duration in seconds" },
+              { "name": "url", "type": "string", "description": "Recording URL" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
