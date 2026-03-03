@@ -1,3 +1,5 @@
+import { getErrorDescription } from './error-codes.js';
+
 export class ConvosoError extends Error {
   constructor(message: string) {
     super(message);
@@ -14,6 +16,11 @@ export class ConvosoApiError extends ConvosoError {
     this.name = 'ConvosoApiError';
     this.code = code;
     this.body = body;
+  }
+
+  /** Look up a human-readable description for this error code from the known Convoso error code map. */
+  get description(): string | undefined {
+    return getErrorDescription(this.code);
   }
 }
 

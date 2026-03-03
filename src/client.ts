@@ -1,4 +1,4 @@
-import { HttpClient } from './http.js';
+import { HttpClient, type RequestHook, type ResponseHook } from './http.js';
 import { AgentMonitorResource } from './resources/agent-monitor.js';
 import { AgentPerformanceResource } from './resources/agent-performance.js';
 import { AgentProductivityResource } from './resources/agent-productivity.js';
@@ -20,6 +20,9 @@ export interface ConvosoOptions {
   authToken: string;
   baseUrl?: string;
   fetch?: typeof globalThis.fetch;
+  maxRetries?: number;
+  onRequest?: RequestHook;
+  onResponse?: ResponseHook;
 }
 
 export class Convoso {
@@ -45,6 +48,9 @@ export class Convoso {
       authToken: options.authToken,
       baseUrl: options.baseUrl,
       fetch: options.fetch,
+      maxRetries: options.maxRetries,
+      onRequest: options.onRequest,
+      onResponse: options.onResponse,
     });
 
     this.agentMonitor = new AgentMonitorResource(http);
