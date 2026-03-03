@@ -60,7 +60,11 @@ export default defineConfig({
     // Context7 chat widget
     [
       'script',
-      { src: 'https://context7.com/widget.js', 'data-library': '/thornebridge/convoso-js' },
+      {
+        src: 'https://context7.com/widget.js',
+        'data-library': '/thornebridge/convoso-js',
+        async: '',
+      },
     ],
 
     // JSON-LD structured data
