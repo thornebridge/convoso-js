@@ -1,0 +1,40 @@
+# convoso-js
+
+> Unofficial TypeScript SDK for the Convoso API
+
+## Overview
+
+convoso-js is a zero-dependency, fully typed TypeScript SDK for the Convoso call center API. It covers all 37 API endpoints across 16 resources, with auto-pagination, automatic retry with exponential backoff, and request/response hooks.
+
+- Package: `npm install convoso-js`
+- Node.js 18+ required (native fetch)
+- License: MIT
+- Source: https://github.com/thornebridge/convoso-js
+
+## Quick Start
+
+```typescript
+import { Convoso } from 'convoso-js';
+
+const client = new Convoso({
+  authToken: process.env.CONVOSO_TOKEN!,
+  maxRetries: 3,
+});
+
+const { results } = await client.leads.search({ list_id: '333', limit: 100 });
+
+for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
+  console.log(entry.phone_number);
+}
+```
+
+## Documentation
+
+- Full docs: https://thornebridge.github.io/convoso-js/
+- Getting Started: https://thornebridge.github.io/convoso-js/guide/getting-started
+- Configuration: https://thornebridge.github.io/convoso-js/guide/configuration
+- Error Handling: https://thornebridge.github.io/convoso-js/guide/error-handling
+- Retry & Hooks: https://thornebridge.github.io/convoso-js/guide/retry-and-hooks
+- Auto-Pagination: https://thornebridge.github.io/convoso-js/guide/pagination
+- API Reference: https://thornebridge.github.io/convoso-js/api-reference/
+- Comprehensive reference: https://thornebridge.github.io/convoso-js/llms-full.txt

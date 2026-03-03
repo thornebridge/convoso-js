@@ -1,0 +1,302 @@
+# convoso-js — Complete SDK Reference
+
+> Unofficial TypeScript SDK for the Convoso API.
+> Zero dependencies. Fully typed. Node.js 18+.
+> npm install convoso-js
+
+---
+
+## Client Construction
+
+```typescript
+import { Convoso } from 'convoso-js';
+
+const client = new Convoso({
+  authToken: string;       // Required — Convoso API auth token
+  baseUrl?: string;        // Default: "https://api.convoso.com/v1"
+  fetch?: typeof fetch;    // Custom fetch implementation
+  maxRetries?: number;     // Default: 0 — retry on 429/500/502/503/504
+  onRequest?: (path: string, params: URLSearchParams) => void | Promise<void>;
+  onResponse?: (path: string, response: Response, data: unknown) => void | Promise<void>;
+});
+```
+
+All API calls are POST with `application/x-www-form-urlencoded` bodies. `auth_token` is injected automatically into every request — it never appears in method parameters. `undefined` and `null` parameter values are stripped before encoding.
+
+---
+
+## Error Handling
+
+```typescript
+import { ConvosoApiError, ConvosoHttpError, CONVOSO_ERROR_CODES } from 'convoso-js';
+```
+
+**ConvosoApiError** — Thrown when API returns HTTP 200 but `{ success: false }`:
+- `.code: number` — Convoso error code
+- `.message: string` — Error message from API
+- `.body: unknown` — Full response body
+- `.description: string | undefined` — Human-readable lookup from CONVOSO_ERROR_CODES
+
+**ConvosoHttpError** — Thrown on non-2xx HTTP status:
+- `.status: number` — HTTP status code
+- `.statusText: string` — HTTP status text
+- `.body: string` — Raw response body
+
+```typescript
+try {
+  await client.leads.insert({ list_id: '999', phone_number: '5551234567' });
+} catch (err) {
+  if (err instanceof ConvosoApiError) {
+    console.error(`Code ${err.code}: ${err.description}`);
+  } else if (err instanceof ConvosoHttpError) {
+    console.error(`HTTP ${err.status}: ${err.statusText}`);
+  }
+}
+```
+
+### Error Code Table
+
+| Code | Description |
+|------|-------------|
+| 4001 | Missing required field |
+| 4002 | Field must be numeric |
+| 6000 | Invalid phone number |
+| 6001 | Record not found |
+| 6002 | No such list |
+| 6003 | Missing required name |
+| 6004 | Unknown or invalid ID |
+| 6005 | Missing required user(s) |
+| 6006 | Invalid user or phone |
+| 6007 | Missing required field or duplicate entry |
+| 6008 | Invalid or duplicate phone number |
+| 6009 | Phone number already exists |
+| 6012 | User is not logged in |
+| 6023 | Required fields are missing |
+| 6026 | Invalid campaign ID or country code |
+| 6031 | Invalid date format |
+| 6032 | Missing call log ID |
+| 6033 | No such call log |
+| 6036 | Either revenue or return must have a value |
+| 6041 | Invalid queue ID |
+| 6042 | Invalid list ID |
+| 6046 | List name too short (min 10 characters) |
+| 6050 | Invalid status |
+| 6056 | Missing or invalid ID value |
+| 6057 | Invalid reason provided |
+| 6058 | Invalid purpose provided |
+| 6059 | Combination already exists or update failed |
+| 6060 | Invalid or missing call log / status ID |
+| 6061 | Not found or invalid abbreviation |
+| 6062 | Invalid final option or extra field validation error |
+| 6063 | Missing or invalid reached option |
+| 6064 | Missing or invalid success option |
+| 6065 | Missing or invalid DNC option |
+| 6066 | Missing or invalid callback option |
+| 6067 | Missing or invalid contact option |
+| 6068 | Missing or invalid voicemail option |
+| 6069 | Only custom statuses can be modified |
+| 6070 | Invalid lead or callback ID |
+| 6071 | Record not found or option cannot be empty |
+| 6072 | Invalid timezone or option cannot be empty |
+| 6073 | Invalid callback ID or option cannot be empty |
+| 6074 | Callback not found or option cannot be empty |
+| 6075 | Callback option cannot be empty |
+| 6076 | Contact option cannot be empty |
+| 6077 | Voicemail option cannot be empty |
+| 6078 | Invalid HEX color (do not include #) |
+| 6079 | Invalid email address |
+| 6080 | Invalid status value or missing purpose field |
+| 6081 | List name must be unique |
+| 6090 | Invalid criteria key |
+| 7231 | Invalid offset value |
+| 7258 | Invalid limit value |
+
+---
+
+## Auto-Pagination
+
+Resources with paginated endpoints expose `*All()` async generator methods that handle offset/limit automatically:
+
+```typescript
+for await (const lead of client.leads.searchAll({ list_id: '333', pageSize: 200 })) {
+  console.log(lead.phone_number);
+}
+// Break early to stop fetching
+```
+
+`PageOptions: { pageSize?: number }` — default 100. The `offset` and `limit` params are managed internally and excluded from `*All()` signatures.
+
+---
+
+## Retry Logic
+
+When `maxRetries > 0`, retryable HTTP status codes (429, 500, 502, 503, 504) trigger automatic retry with exponential backoff:
+
+```
+delay = min(1000ms * 2^(attempt-1), 30000ms) + random(0-1000ms)
+```
+
+For 429 responses with a `Retry-After` header, the header value is used instead.
+
+`ConvosoApiError` (success: false) responses are NOT retried — only HTTP-level failures.
+
+---
+
+## Complete Resource & Method Reference
+
+### client.leads — Lead Management
+- `search(params?: LeadSearchParams): Promise<LeadSearchResponse>` — POST /leads/search
+- `searchAll(params?: { ...filters, pageSize?: number }): AsyncGenerator<LeadRecord>` — Auto-paginated
+- `insert(params: LeadInsertParams): Promise<LeadInsertResponse>` — POST /leads/insert
+- `update(params: LeadUpdateParams): Promise<LeadUpdateResponse>` — POST /leads/update
+- `delete(params: LeadDeleteParams): Promise<LeadDeleteResponse>` — POST /leads/delete
+- `getRecordings(params: LeadGetRecordingsParams): Promise<LeadGetRecordingsResponse>` — POST /leads/get-recordings
+- `getRecordingsAll(params: { lead_id: string, pageSize?: number }): AsyncGenerator<Recording>` — Auto-paginated
+
+**LeadSearchParams**: lead_id?, list_id?, user_id?, owner_id?, status?, offset?, limit?, first_name?, last_name?, phone_number?, email?, city?, state?, postal_code?, country?, date_of_birth?, created_at_start_date?, created_at_end_date?, updated_at_start_date?, updated_at_end_date?
+**LeadRecord**: id, first_name, last_name, phone_number, email, status, list_id, created_at, modified_at, address1, city, state, postal_code, country, carrier_name, carrier_type
+**LeadInsertParams**: list_id (required), phone_number (required), phone_code?, first_name?, last_name?, email?, status?, address1?, address2?, city?, state?, postal_code?, country?, hopper?, hopper_priority?, hopper_expires_in?, update_if_found?, check_dup?, check_dnc?
+
+### client.lists — List Management
+- `search(params: ListSearchParams): Promise<ListSearchResponse>` — POST /lists/search
+- `insert(params: ListInsertParams): Promise<ListInsertResponse>` — POST /lists/insert
+- `update(params: ListUpdateParams): Promise<ListUpdateResponse>` — POST /lists/update
+- `delete(params: ListDeleteParams): Promise<ListDeleteResponse>` — POST /lists/delete
+
+### client.dnc — Do-Not-Call
+- `search(params?: DncSearchParams): Promise<DncSearchResponse>` — POST /dnc/search
+- `searchAll(params?: { ...filters, pageSize?: number }): AsyncGenerator<DncRecord>` — Auto-paginated
+- `insert(params: DncInsertParams): Promise<DncInsertResponse>` — POST /dnc/insert
+- `update(params: DncUpdateParams): Promise<DncUpdateResponse>` — POST /dnc/update
+- `delete(params: DncDeleteParams): Promise<DncDeleteResponse>` — POST /dnc/delete
+
+**DncSearchParams**: id?, campaign_id?, phone_number?, phone_code?, insert_date?, offset?, limit?, reason?, purpose?
+**DncRecord**: id, phone_number, campaign_id, insert_date, phone_code, campaign_name
+**DncInsertParams**: phone_number (required), phone_code (required), campaign_id (required), reason?, purpose?
+**DncDeleteParams**: phone_number (required), phone_code (required), campaign_id (required), update_lead_status?, lead_status?
+
+### client.callbacks — Callback Scheduling
+- `search(params?: CallbackSearchParams): Promise<CallbackSearchResponse>` — POST /callbacks/search
+- `searchAll(params?: { ...filters, pageSize?: number }): AsyncGenerator<CallbackRecord>` — Auto-paginated
+- `insert(params: CallbackInsertParams): Promise<CallbackInsertResponse>` — POST /callbacks/insert
+- `update(params: CallbackUpdateParams): Promise<CallbackUpdateResponse>` — POST /callbacks/update
+- `delete(params: CallbackDeleteParams): Promise<CallbackDeleteResponse>` — POST /callbacks/delete
+
+### client.callLogs — Call History
+- `retrieve(params?: CallLogRetrieveParams): Promise<CallLogRetrieveResponse>` — POST /log/retrieve
+- `retrieveAll(params?: { ...filters, pageSize?: number }): AsyncGenerator<CallLogRecord>` — Auto-paginated
+- `update(params: CallLogUpdateParams): Promise<CallLogUpdateResponse>` — POST /log/update
+
+### client.campaigns — Campaign Control
+- `search(): Promise<CampaignSearchResponse>` — POST /campaigns/search
+- `status(params: CampaignStatusParams): Promise<CampaignStatusResponse>` — POST /campaigns/status
+
+**CampaignStatusParams**: campaign_id (required), status: "activate" | "deactivate" (required)
+
+### client.agentMonitor — Real-Time Monitoring
+- `search(params?: AgentMonitorSearchParams): Promise<AgentMonitorSearchResponse>` — POST /agent-monitor/search
+- `logout(params: AgentMonitorLogoutParams): Promise<AgentMonitorLogoutResponse>` — POST /agent-monitor/logout
+
+**AgentMonitorSearchParams**: campaign_id?, user_id?
+**AgentMonitorSearchResponse**: total_agents, agents_in_call, agents_ready, agents_paused, queue_dialable_leads, queue_calls_today, agents[]
+
+### client.agentPerformance — Performance Metrics
+- `search(params?: AgentPerformanceSearchParams): Promise<AgentPerformanceSearchResponse>` — POST /agent-performance/search
+
+**AgentPerformanceSearchParams**: start_date?, end_date?, campaign_id?, user_id?
+
+### client.agentProductivity — Productivity Tracking
+- `search(params?: AgentProductivitySearchParams): Promise<AgentProductivitySearchResponse>` — POST /agent-productivity/search
+
+### client.status — Lead Status Codes
+- `search(params: StatusSearchParams): Promise<StatusSearchResponse>` — POST /status/search
+- `insert(params: StatusInsertParams): Promise<StatusInsertResponse>` — POST /status/insert
+- `update(params: StatusUpdateParams): Promise<StatusUpdateResponse>` — POST /status/update
+
+### client.revenue — Revenue Tracking
+- `update(params: RevenueUpdateParams): Promise<RevenueUpdateResponse>` — POST /revenue/update
+
+**RevenueUpdateParams**: call_log_id (required), revenue?, return_value?
+
+### client.users — User Management
+- `search(params: UsersSearchParams): Promise<UsersSearchResponse>` — POST /users/search
+- `recordings(params: UsersRecordingsParams): Promise<UsersRecordingsResponse>` — POST /users/recordings
+
+### client.userActivity — Activity Logs
+- `search(params?: UserActivitySearchParams): Promise<UserActivitySearchResponse>` — POST /user-activity/search
+
+### client.leadPost — Post-Validation Insert
+- `insert(params: LeadPostInsertParams): Promise<LeadPostInsertResponse>` — POST /lead-post-validation/insert
+
+### client.leadValidation — Lead Validation
+- `search(params: LeadValidationSearchParams): Promise<LeadValidationSearchResponse>` — POST /lead-validation/search
+
+### client.smsOptOut — SMS Opt-Out Compliance
+- `search(params?: SmsOptOutSearchParams): Promise<SmsOptOutSearchResponse>` — POST /sms-opt-out/search
+- `searchAll(params?: { ...filters, pageSize?: number }): AsyncGenerator<SmsOptOutRecord>` — Auto-paginated
+- `insert(params: SmsOptOutInsertParams): Promise<SmsOptOutInsertResponse>` — POST /sms-opt-out/insert
+- `update(params: SmsOptOutUpdateParams): Promise<SmsOptOutUpdateResponse>` — POST /sms-opt-out/update
+
+---
+
+## Exports
+
+```typescript
+// Main client
+export { Convoso } from 'convoso-js';
+export type { ConvosoOptions } from 'convoso-js';
+
+// Errors
+export { ConvosoError, ConvosoApiError, ConvosoHttpError } from 'convoso-js';
+export { CONVOSO_ERROR_CODES, getErrorDescription } from 'convoso-js';
+export type { ConvosoErrorCode } from 'convoso-js';
+
+// All types are re-exported: LeadSearchParams, LeadRecord, DncInsertParams, etc.
+export * from 'convoso-js'; // includes all param/response types
+```
+
+---
+
+## Key Design Decisions
+
+- **No response normalization** — API responses are returned exactly as Convoso sends them. Different endpoints use different shapes: `results` array, `entries` array, `data` object, raw arrays.
+- **auth_token is auto-injected** — Never pass it in method params.
+- **All endpoints are POST** — Even read operations use POST with URL-encoded bodies. This is how the Convoso API works.
+- **Zero runtime dependencies** — Only uses native `fetch` from Node.js 18+.
+- **Dual ESM/CJS** — Ships both module formats with full `.d.ts` declarations.
+
+---
+
+## Common Patterns
+
+### Bulk import with error handling
+```typescript
+for (const lead of leads) {
+  try {
+    await client.leads.insert({ ...lead, check_dup: 1, check_dnc: true });
+  } catch (err) {
+    if (err instanceof ConvosoApiError) {
+      console.error(`${lead.phone_number}: ${err.description ?? err.message}`);
+    } else throw err;
+  }
+}
+```
+
+### Fetch-all → diff → sync
+```typescript
+const existing = new Set<string>();
+for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
+  existing.add(entry.phone_number);
+}
+const toAdd = numbers.filter(n => !existing.has(n));
+```
+
+### Request timing middleware
+```typescript
+const timings: Record<string, number> = {};
+const client = new Convoso({
+  authToken: '...',
+  onRequest: (path) => { timings[path] = Date.now(); },
+  onResponse: (path) => { console.log(`${path}: ${Date.now() - timings[path]}ms`); },
+});
+```
