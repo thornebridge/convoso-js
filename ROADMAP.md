@@ -4,10 +4,10 @@ This document outlines the planned direction for convoso-js. Priorities may shif
 
 ## v0.2.0
 
-- [ ] **Rate limit awareness** — expose rate limit headers via hooks or metadata
-- [ ] **Request timeout** — configurable per-request and global timeout with `AbortController`
+- [x] **Rate limit awareness** — `parseRateLimitHeaders()` for use in `onResponse` hooks
+- [x] **Request timeout** — configurable `timeout` option with `AbortController`
 - [ ] **Debug mode** — opt-in verbose logging for troubleshooting
-- [ ] **Batch helpers** — utilities for bulk lead import with concurrency control
+- [x] **Batch helpers** — `batch()` function with concurrency control
 
 ## v0.3.0
 

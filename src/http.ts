@@ -1,4 +1,4 @@
-import { ConvosoApiError, ConvosoHttpError } from './errors.js';
+import { ConvosoApiError, ConvosoHttpError, ConvosoTimeoutError } from './errors.js';
 
 export type RequestHook = (path: string, params: URLSearchParams) => void | Promise<void>;
 export type ResponseHook = (
@@ -12,6 +12,8 @@ export interface HttpClientOptions {
   baseUrl?: string;
   fetch?: typeof globalThis.fetch;
   maxRetries?: number;
+  /** Request timeout in milliseconds. Each retry attempt gets its own timeout. No timeout by default. */
+  timeout?: number;
   onRequest?: RequestHook;
   onResponse?: ResponseHook;
 }
@@ -25,6 +27,7 @@ export class HttpClient {
   private readonly baseUrl: string;
   private readonly fetch: typeof globalThis.fetch;
   private readonly maxRetries: number;
+  private readonly timeout?: number;
   private readonly onRequest?: RequestHook;
   private readonly onResponse?: ResponseHook;
 
@@ -33,6 +36,7 @@ export class HttpClient {
     this.baseUrl = options.baseUrl ?? 'https://api.convoso.com/v1';
     this.fetch = options.fetch ?? globalThis.fetch;
     this.maxRetries = options.maxRetries ?? 0;
+    this.timeout = options.timeout;
     this.onRequest = options.onRequest;
     this.onResponse = options.onResponse;
   }
@@ -57,11 +61,32 @@ export class HttpClient {
         await this.sleep(this.getBackoffMs(attempt, lastError));
       }
 
-      const response = await this.fetch(`${this.baseUrl}${path}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
-      });
+      const controller = this.timeout ? new AbortController() : undefined;
+      const timer = controller
+        ? setTimeout(() => controller.abort(), this.timeout)
+        : undefined;
+
+      let response: Response;
+      try {
+        response = await this.fetch(`${this.baseUrl}${path}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+          signal: controller?.signal,
+        });
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          const timeoutErr = new ConvosoTimeoutError(this.timeout!);
+          if (attempt < this.maxRetries) {
+            lastError = timeoutErr;
+            continue;
+          }
+          throw timeoutErr;
+        }
+        throw err;
+      } finally {
+        clearTimeout(timer);
+      }
 
       if (!response.ok) {
         if (attempt < this.maxRetries && RETRYABLE_STATUS_CODES.has(response.status)) {

@@ -21,6 +21,8 @@ export interface ConvosoOptions {
   baseUrl?: string;
   fetch?: typeof globalThis.fetch;
   maxRetries?: number;
+  /** Request timeout in milliseconds. Each retry attempt gets its own timeout. No timeout by default. */
+  timeout?: number;
   onRequest?: RequestHook;
   onResponse?: ResponseHook;
 }
@@ -49,6 +51,7 @@ export class Convoso {
       baseUrl: options.baseUrl,
       fetch: options.fetch,
       maxRetries: options.maxRetries,
+      timeout: options.timeout,
       onRequest: options.onRequest,
       onResponse: options.onResponse,
     });

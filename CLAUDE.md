@@ -21,7 +21,9 @@ npm run docs:build   # Build docs site
 
 - `src/client.ts` — `Convoso` class composes all 16 resources
 - `src/http.ts` — `HttpClient` wraps fetch, injects auth_token, retry + backoff, hooks
-- `src/errors.ts` — `ConvosoError` → `ConvosoApiError` / `ConvosoHttpError`
+- `src/errors.ts` — `ConvosoError` → `ConvosoApiError` / `ConvosoTimeoutError` / `ConvosoHttpError`
+- `src/rate-limit.ts` — `parseRateLimitHeaders()` for extracting rate limit info from responses
+- `src/batch.ts` — `batch()` helper with concurrency-controlled worker pool
 - `src/error-codes.ts` — 44 known Convoso error codes with descriptions
 - `src/resources/base.ts` — `BaseResource` holds HttpClient ref
 - `src/resources/*.ts` — 16 resource classes, one per API section
@@ -75,16 +77,39 @@ These have `*All()` methods returning `AsyncGenerator<T>`:
 ## Error Handling Pattern
 
 ```typescript
-import { ConvosoApiError, ConvosoHttpError } from 'convoso-js';
+import { ConvosoApiError, ConvosoTimeoutError, ConvosoHttpError } from 'convoso-js';
 
 try {
   await client.leads.insert({ list_id: '333', phone_number: '5551234567' });
 } catch (err) {
   if (err instanceof ConvosoApiError) {
     // success: false — use err.code, err.message, err.description, err.body
+  } else if (err instanceof ConvosoTimeoutError) {
+    // Request timed out — use err.timeout
   } else if (err instanceof ConvosoHttpError) {
     // Non-2xx — use err.status, err.statusText, err.body
   }
+}
+```
+
+## Batch Operations
+
+```typescript
+import { batch } from 'convoso-js';
+
+const result = await batch(leads, (lead) => client.leads.insert(lead), { concurrency: 5 });
+// result.successCount, result.errorCount, result.results[]
+```
+
+## Rate Limit Headers
+
+```typescript
+import { parseRateLimitHeaders } from 'convoso-js';
+
+// Use inside onResponse hook:
+onResponse: (_path, response) => {
+  const info = parseRateLimitHeaders(response);
+  // info.limit, info.remaining, info.reset (all optional numbers)
 }
 ```
 

@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-03-03
+
+### Added
+
+- `timeout` option — configurable request timeout with `AbortController` (each retry attempt gets its own timeout)
+- `ConvosoTimeoutError` class for timeout failures (retryable when `maxRetries` is configured)
+- `parseRateLimitHeaders(response)` — extract `X-RateLimit-*` headers inside `onResponse` hooks
+- `RateLimitInfo` type for rate limit header data
+- `batch(items, operation, options?)` — concurrent batch operations with worker pool pattern
+- `BatchResult`, `BatchItemSuccess`, `BatchItemError`, `BatchOptions` types
+- 23 new tests (timeout: 7, rate limit: 6, batch: 10)
+
 ## [0.1.1] - 2026-03-03
 
 ### Changed
@@ -38,5 +50,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Automated npm publishing with OIDC trusted publisher and provenance
 - GitHub Pages docs deployment
 
+[0.2.0]: https://github.com/thornebridge/convoso-js/releases/tag/v0.2.0
 [0.1.1]: https://github.com/thornebridge/convoso-js/releases/tag/v0.1.1
 [0.1.0]: https://github.com/thornebridge/convoso-js/commits/v0.1.1

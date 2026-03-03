@@ -24,6 +24,16 @@ export class ConvosoApiError extends ConvosoError {
   }
 }
 
+export class ConvosoTimeoutError extends ConvosoError {
+  readonly timeout: number;
+
+  constructor(timeout: number) {
+    super(`Request timed out after ${timeout}ms`);
+    this.name = 'ConvosoTimeoutError';
+    this.timeout = timeout;
+  }
+}
+
 export class ConvosoHttpError extends ConvosoError {
   readonly status: number;
   readonly statusText: string;
