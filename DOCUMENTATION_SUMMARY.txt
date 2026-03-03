@@ -5,8 +5,8 @@ CONVOSO API DOCUMENTATION HUB - COMPLETE
 PROJECT COMPLETION SUMMARY
 Date Created: 2026-03-03
 Total Files: 19 documentation files
-Total Lines: 8,781 lines of documentation
-Total Size: 268 KB
+Total Lines: 9,487 lines of documentation
+Total Size: 296 KB
 
 DIRECTORY STRUCTURE
 ================================================================================
@@ -32,11 +32,34 @@ DIRECTORY STRUCTURE
     ├── user-activity.md               Real-time availability
     └── users.md                       User profile and recording retrieval
 
+DATA SOURCES
+================================================================================
+
+This documentation was built by merging two authoritative sources:
+
+1. HELP CENTER EXTRACTION (62 articles)
+   - Source: https://help.convoso.com/hc/en-us/categories/360002169153-API
+   - 62 articles extracted across 18 categories via Chrome browser automation
+   - Provided: use cases, workflow examples, code samples, tutorials
+
+2. ADMIN API REFERENCE (internal documentation)
+   - Provided directly from the platform's Admin view
+   - 16 API sections covering all 37 endpoints
+   - Provided: authoritative URLs, error codes, field specifications
+   - Treated as the canonical source for all technical details
+
+Where the two sources conflicted, the Admin API reference was used as the
+authoritative source. Key corrections from the Admin reference:
+   - ALL endpoints use POST method (Help Center incorrectly showed some as GET)
+   - Several URL corrections (e.g., /lists/ plural, /campaigns/status plural)
+   - Comprehensive error codes added for every endpoint
+   - Additional fields and parameters documented
+
 KEY FEATURES
 ================================================================================
 
 1. COMPREHENSIVE API INDEX (api-index.json)
-   - 54 distinct API endpoints documented
+   - 37 API endpoints documented
    - Machine-readable JSON format
    - All parameters with types and requirements
    - Response field definitions
@@ -46,7 +69,7 @@ KEY FEATURES
 
 2. MASTER README.md
    - Complete table of contents
-   - Quick reference table of ALL endpoints (method, path, description)
+   - Quick reference table of all 37 endpoints (method, path, description)
    - Navigation guide to all documentation
    - Base URL and authentication info
    - Common parameters and date formats
@@ -58,12 +81,13 @@ KEY FEATURES
    Each includes:
    - Detailed endpoint descriptions
    - Parameter specifications with types and requirements
-   - Request examples (GET, POST)
+   - Request examples (all POST with form-urlencoded bodies)
    - Response examples (JSON)
    - Response field definitions and explanations
+   - Error codes from Admin API reference
    - Use case descriptions
    - Filtering and pagination examples
-   - Workflow examples (Python, cURL, JavaScript)
+   - Workflow examples (Python, cURL, JavaScript, PHP)
    - Error handling
    - Best practices
    - Related endpoints
@@ -74,319 +98,174 @@ KEY FEATURES
    - Security best practices
    - Token regeneration procedures
    - Error handling
-   - Code examples in multiple languages
+   - Code examples in multiple languages (all POST)
 
 DOCUMENTATION COVERAGE
 ================================================================================
 
-AGENT MONITORING (3 endpoints)
-  ✓ Agent Monitor—Logout
-  ✓ Agent Monitor Search API
-  ✓ User Activity API
+AGENT MONITORING (2 endpoints)
+  > Agent Monitor--Logout            POST /agent-monitor/logout
+  > Agent Monitor--Search            POST /agent-monitor/search
 
-AGENT PERFORMANCE & PRODUCTIVITY (2 endpoints)
-  ✓ Agent Performance Search API
-  ✓ Agent Productivity Search API
+AGENT PERFORMANCE (1 endpoint)
+  > Agent Performance--Search        POST /agent-performance/search
 
-CALL MANAGEMENT (2 endpoints)
-  ✓ Call Log—Update API
-  ✓ Call Log—Retrieve/Search API
+AGENT PRODUCTIVITY (1 endpoint)
+  > Agent Productivity--Search       POST /agent-productivity/search
 
-CALLBACK MANAGEMENT (4 endpoints)
-  ✓ Callbacks—Update API
-  ✓ Callbacks—Search API
-  ✓ Callbacks—Delete API
-  ✓ Callbacks—Insert API
+CALL LOGS (2 endpoints)
+  > Call Log--Update                  POST /log/update
+  > Call Log--Retrieve                POST /log/retrieve
 
-CAMPAIGN MANAGEMENT (2 endpoints)
-  ✓ Campaign—Search API
-  ✓ Campaign—Status API
+CALLBACKS (4 endpoints)
+  > Callbacks--Update                 POST /callbacks/update
+  > Callbacks--Search                 POST /callbacks/search
+  > Callbacks--Delete                 POST /callbacks/delete
+  > Callbacks--Insert                 POST /callbacks/insert
 
-DO-NOT-CALL LISTS (4 endpoints)
-  ✓ Update DNC—API
-  ✓ Insert DNC—API
-  ✓ Search DNC—API
-  ✓ DNC Delete—API
+CAMPAIGNS (2 endpoints)
+  > Campaign--Search                  POST /campaigns/search
+  > Campaign--Status                  POST /campaigns/status
 
-LEAD MANAGEMENT (5 endpoints)
-  ✓ Lead Search API
-  ✓ Lead—Get Recordings API
-  ✓ Lead Delete API
-  ✓ Lead Insert API
-  ✓ Lead Update API
+DNC (4 endpoints)
+  > DNC--Update                       POST /dnc/update
+  > DNC--Insert                       POST /dnc/insert
+  > DNC--Search                       POST /dnc/search
+  > DNC--Delete                       POST /dnc/delete
 
-LEAD VALIDATION (2 endpoints)
-  ✓ Lead Post API (Criteria-based insertion)
-  ✓ Lead Validation API (Check without insertion)
+LEADS (5 endpoints)
+  > Lead--Search                      POST /leads/search
+  > Lead--Get Recordings              POST /leads/get-recordings
+  > Lead--Delete                      POST /leads/delete
+  > Lead--Insert                      POST /leads/insert
+  > Lead--Update                      POST /leads/update
 
-LIST MANAGEMENT (3 endpoints)
-  ✓ Lists—Insert (Create/Update)
-  ✓ Lists—Search API
-  ✓ Lists—Delete
+LEAD POST (1 endpoint)
+  > Lead Post (criteria insertion)   POST /lead-post-validation/insert
 
-REVENUE TRACKING (1 endpoint)
-  ✓ Revenue API
+LEAD VALIDATION (1 endpoint)
+  > Lead Validation                  POST /lead-validation/search
+
+LISTS (4 endpoints)
+  > Lists--Insert                     POST /lists/insert
+  > Lists--Update                     POST /lists/update
+  > Lists--Search                     POST /lists/search
+  > Lists--Delete                     POST /lists/delete
+
+REVENUE (1 endpoint)
+  > Revenue--Update                   POST /revenue/update
 
 SMS OPT-OUT (3 endpoints)
-  ✓ Search SMS Opt-Out—API
-  ✓ Update SMS Opt-Out—API
-  ✓ Insert SMS Opt-Out—API
+  > SMS Opt-Out--Search               POST /sms-opt-out/search
+  > SMS Opt-Out--Update               POST /sms-opt-out/update
+  > SMS Opt-Out--Insert               POST /sms-opt-out/insert
 
-LEAD STATUS (3 endpoints)
-  ✓ Status—Search
-  ✓ Status—Update
-  ✓ Status—Insert
+STATUSES (3 endpoints)
+  > Status--Search                    POST /status/search
+  > Status--Update                    POST /status/update
+  > Status--Insert                    POST /status/insert
 
-USER MANAGEMENT (2 endpoints)
-  ✓ Users Search—API
-  ✓ Users—Recordings
+USER ACTIVITY (1 endpoint)
+  > User Activity--Search             POST /user-activity/search
 
-TOTAL ENDPOINTS DOCUMENTED: 54 endpoints across 17 categories
+USERS (2 endpoints)
+  > Users--Search                     POST /users/search
+  > Users--Recordings                 POST /users/recordings
+
+TOTAL: 37 endpoints across 16 API sections (+ authentication guide)
 
 CONTENT QUALITY
 ================================================================================
 
 COMPLETENESS:
-  ✓ All 62 extracted articles processed
-  ✓ All endpoints with parameters documented
-  ✓ All response fields defined
-  ✓ All error codes included
-  ✓ Request and response examples provided
-  ✓ Use cases described
-  ✓ Workflows illustrated
+  - All 62 Help Center articles processed and merged
+  - All 16 Admin API reference sections merged
+  - All 37 endpoints with parameters documented
+  - All response fields defined
+  - All error codes from Admin reference included
+  - Request and response examples provided
+  - Use cases described
+  - Workflows illustrated
 
 CONSISTENCY:
-  ✓ Unified markdown formatting
-  ✓ Standard parameter tables
-  ✓ Consistent response structures
-  ✓ Standardized error handling sections
-  ✓ Common related endpoints listed
+  - Unified markdown formatting
+  - Standard parameter tables
+  - Consistent response structures
+  - Standardized error handling sections
+  - Common related endpoints listed
+  - All endpoints use POST method throughout
 
 USABILITY:
-  ✓ Clear navigation with hyperlinks
-  ✓ Searchable JSON index
-  ✓ Code examples in multiple languages
-  ✓ Best practices documented
-  ✓ Troubleshooting guides
-  ✓ Real-world workflow examples
+  - Clear navigation with hyperlinks
+  - Searchable JSON index
+  - Code examples in multiple languages
+  - Best practices documented
+  - Troubleshooting guides
+  - Real-world workflow examples
 
 AI ACCESSIBILITY:
-  ✓ Machine-readable JSON specification
-  ✓ Structured parameter definitions
-  ✓ Type information for all fields
-  ✓ Complete request/response examples
-  ✓ Error code mapping
-  ✓ Endpoint categorization
-  ✓ Cross-reference relationships
-
-TECHNICAL DETAILS
-================================================================================
-
-Parameter Documentation:
-  - Every parameter type specified (string, integer, boolean, array, object)
-  - Required vs optional clearly marked
-  - Default values documented
-  - Valid ranges/options listed
-  - Format specifications (date formats, time zones, etc.)
-
-Response Documentation:
-  - All response fields defined
-  - Field types specified
-  - Nested object structures explained
-  - Array element definitions
-  - Field relationships explained
-
-Error Handling:
-  - Error codes organized by endpoint
-  - Error descriptions provided
-  - Common error scenarios covered
-  - Troubleshooting suggestions
-
-CODE EXAMPLES:
-  - cURL examples
-  - Python examples
-  - JavaScript examples
-  - Batch processing patterns
-  - Integration patterns
-
-USAGE PATTERNS
-================================================================================
-
-Common Workflows Documented:
-  ✓ Lead creation and management
-  ✓ Campaign setup and activation
-  ✓ Callback scheduling
-  ✓ DNC/SMS opt-out management
-  ✓ Agent monitoring and tracking
-  ✓ Performance reporting
-  ✓ Call log retrieval
-  ✓ Revenue tracking
-  ✓ User profile access
-
-Integration Patterns:
-  ✓ Real-time monitoring integration
-  ✓ Batch data import
-  ✓ Lead validation workflow
-  ✓ SMS compliance
-  ✓ Callback automation
-  ✓ Reporting integration
-
-BEST PRACTICES INCLUDED
-================================================================================
-
-Security:
-  ✓ Token management
-  ✓ Secure storage guidelines
-  ✓ Rotating credentials
-  ✓ Permission management
-  ✓ Audit trails
-
-Data Quality:
-  ✓ Duplicate checking
-  ✓ Validation rules
-  ✓ Phone number formatting
-  ✓ Date/time handling
-  ✓ Timezone management
-
-Operational:
-  ✓ Pagination strategies
-  ✓ Rate limiting awareness
-  ✓ Error handling patterns
-  ✓ Batch processing recommendations
-  ✓ Performance optimization
-
-Compliance:
-  ✓ TCPA compliance for DNC
-  ✓ GDPR considerations
-  ✓ Data retention
-  ✓ Audit trail requirements
-  ✓ Regulatory guidelines
+  - Machine-readable JSON specification
+  - Structured parameter definitions
+  - Type information for all fields
+  - Complete request/response examples
+  - Error code mapping
+  - Endpoint categorization
+  - Cross-reference relationships
 
 FILE SPECIFICATIONS
 ================================================================================
 
-README.md (8,500+ lines)
+README.md (352 lines)
   - Comprehensive navigation guide
-  - 35-endpoint quick reference table
+  - 37-endpoint quick reference table
   - Authentication overview
   - Common parameters reference
   - Standard response structures
   - Error handling guide
   - Best practices
 
-api-index.json (2,500+ lines)
+api-index.json (2,565 lines)
   - Complete machine-readable specification
-  - All 54 endpoints with full metadata
+  - All 37 endpoints with full metadata
   - Parameter definitions (type, required, description)
   - Response field definitions with types
   - Example requests and responses
   - Error codes per endpoint
   - Categorization and relationships
 
-Documentation Files (Avg 400-600 lines each)
-  - Agent Monitor (600 lines)
-  - Agent Performance (550 lines)
-  - Agent Productivity (650 lines)
-  - Authentication (350 lines)
-  - Call Logs (700 lines)
-  - Callbacks (700 lines)
-  - Campaigns (450 lines)
-  - DNC (700 lines)
-  - Leads (650 lines)
-  - Lead Post (500 lines)
-  - Lead Validation (450 lines)
-  - Lists (450 lines)
-  - Revenue (350 lines)
-  - SMS Opt-Out (500 lines)
-  - Status (550 lines)
-  - User Activity (400 lines)
-  - Users (450 lines)
+Documentation Files:
+  - Agent Monitor (261 lines)
+  - Agent Performance (268 lines)
+  - Agent Productivity (347 lines)
+  - Authentication (241 lines)
+  - Call Logs (395 lines)
+  - Callbacks (485 lines)
+  - Campaigns (305 lines)
+  - DNC (521 lines)
+  - Lead Post (272 lines)
+  - Lead Validation (299 lines)
+  - Leads (626 lines)
+  - Lists (500 lines)
+  - Revenue (302 lines)
+  - SMS Opt-Out (474 lines)
+  - Status (513 lines)
+  - User Activity (296 lines)
+  - Users (465 lines)
 
-DEPLOYMENT LOCATION
+DEPLOYMENT
 ================================================================================
 
-All files created in:
-  /sessions/focused-ecstatic-hamilton/mnt/outputs/convoso-api-docs/
+All files located in:
+  /convoso-api-docs/
 
 Ready for:
-  ✓ Direct web hosting
-  ✓ Integration with documentation systems
-  ✓ AI tool training and fine-tuning
-  ✓ API client generation
-  ✓ Integration platform consumption
-  ✓ Internal knowledge base
-  ✓ Developer portal integration
+  - Direct web hosting
+  - Integration with documentation systems
+  - AI tool training and fine-tuning
+  - API client generation
+  - Integration platform consumption
+  - Internal knowledge base
+  - Developer portal integration
 
-ACCESS & USAGE
-================================================================================
-
-File Structure:
-  - Text-based, no dependencies
-  - Markdown for human readability
-  - JSON for machine parsing
-  - Self-contained (no external links required)
-
-Integration Ready:
-  - Can be served as static documentation
-  - JSON index enables programmatic access
-  - Markdown supports standard rendering
-  - No special tooling required
-
-Maintenance:
-  - Each file independently maintainable
-  - Consistent formatting allows batch updates
-  - Organized structure supports easy navigation
-  - Cross-references enable relationship tracking
-
-NEXT STEPS
-================================================================================
-
-IMMEDIATE USE:
-  1. Point developers to README.md for navigation
-  2. Use api-index.json for automated validation
-  3. Reference specific endpoint docs for implementation
-  4. Use workflow examples for integration patterns
-
-ENHANCED IMPLEMENTATION:
-  1. Convert to interactive documentation site (mkdocs, Sphinx)
-  2. Generate API client libraries from JSON specification
-  3. Create SDK examples in additional languages
-  4. Build interactive API explorer
-  5. Add Postman collection generation
-
-ONGOING MAINTENANCE:
-  1. Update endpoints as API evolves
-  2. Add new examples as patterns emerge
-  3. Maintain version history
-  4. Track API changes and deprecations
-  5. Gather feedback for improvements
-
-PROJECT COMPLETION CHECKLIST
-================================================================================
-
-✓ All 62 extracted articles processed
-✓ 54 unique endpoints identified and documented
-✓ Machine-readable JSON index created
-✓ Comprehensive README with navigation
-✓ 17 category documentation files
-✓ All parameters documented with types
-✓ All responses documented with field definitions
-✓ Error codes included for all endpoints
-✓ Request/response examples provided
-✓ Use cases and workflows illustrated
-✓ Code examples in multiple languages
-✓ Best practices documented
-✓ Security guidelines included
-✓ Compliance notes added
-✓ Consistent formatting throughout
-✓ Cross-references and related links
-✓ AI-traversable specification created
-✓ Professional, production-ready documentation
-
-STATUS: COMPLETE ✓
-
-The Convoso API documentation hub is ready for immediate deployment and use.
-All content is comprehensive, well-organized, and accessible to both human
-developers and AI systems.
-
+STATUS: COMPLETE
 ================================================================================
