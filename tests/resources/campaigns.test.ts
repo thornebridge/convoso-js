@@ -3,7 +3,8 @@ import { createMockClient } from '../helpers.js';
 
 describe('Campaigns', () => {
   const client = createMockClient((path) => {
-    if (path === '/campaigns/search') return { data: [{ id: '1', name: 'Sales Campaign', status: 'Y', last_call_date: {} }] };
+    if (path === '/campaigns/search')
+      return { data: [{ id: '1', name: 'Sales Campaign', status: 'Y', last_call_date: {} }] };
     if (path === '/campaigns/status') return { success: true };
     return {};
   });

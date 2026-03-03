@@ -3,9 +3,20 @@ import { createMockClient } from '../helpers.js';
 
 describe('Lists', () => {
   const client = createMockClient((path, params) => {
-    if (path === '/lists/search') return { data: [{ id: '333', name: 'Main Leads List', status: 'Y', last_called_at: '2026-03-01 16:00:00' }] };
+    if (path === '/lists/search')
+      return {
+        data: [
+          {
+            id: '333',
+            name: 'Main Leads List',
+            status: 'Y',
+            last_called_at: '2026-03-01 16:00:00',
+          },
+        ],
+      };
     if (path === '/lists/insert') return { success: true, data: { list_id: '334' }, id: '334' };
-    if (path === '/lists/update') return { success: true, data: { list_id: params.get('list_id') } };
+    if (path === '/lists/update')
+      return { success: true, data: { list_id: params.get('list_id') } };
     if (path === '/lists/delete') return { success: true };
     return {};
   });

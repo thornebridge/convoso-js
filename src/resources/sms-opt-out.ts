@@ -15,7 +15,9 @@ export class SmsOptOutResource extends BaseResource {
     return this.http.post('/sms-opt-out/search', params);
   }
 
-  async *searchAll(params?: Omit<SmsOptOutSearchParams, 'offset' | 'limit'> & PageOptions): AsyncGenerator<SmsOptOutRecord> {
+  async *searchAll(
+    params?: Omit<SmsOptOutSearchParams, 'offset' | 'limit'> & PageOptions,
+  ): AsyncGenerator<SmsOptOutRecord> {
     const { pageSize, ...rest } = params ?? {};
     const limit = pageSize ?? 100;
     let offset = 0;

@@ -5,7 +5,8 @@ const BASE = '/convoso-js/';
 const SITE_URL = `${HOSTNAME}${BASE}`;
 const OG_IMAGE = `${HOSTNAME}${BASE}og-image.png`;
 const SITE_TITLE = 'convoso-js';
-const SITE_DESCRIPTION = 'Unofficial TypeScript SDK for the Convoso API — zero dependencies, fully typed, with auto-pagination, retry logic, and request hooks.';
+const SITE_DESCRIPTION =
+  'Unofficial TypeScript SDK for the Convoso API — zero dependencies, fully typed, with auto-pagination, retry logic, and request hooks.';
 
 export default defineConfig({
   title: SITE_TITLE,
@@ -35,7 +36,10 @@ export default defineConfig({
     ['meta', { property: 'og:image:width', content: '1200' }],
     ['meta', { property: 'og:image:height', content: '630' }],
     ['meta', { property: 'og:image:type', content: 'image/png' }],
-    ['meta', { property: 'og:image:alt', content: 'convoso-js — TypeScript SDK for the Convoso API' }],
+    [
+      'meta',
+      { property: 'og:image:alt', content: 'convoso-js — TypeScript SDK for the Convoso API' },
+    ],
 
     // Twitter Card — static tags (per-page title/desc via transformPageData)
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
@@ -44,40 +48,52 @@ export default defineConfig({
     // SEO — static
     ['meta', { name: 'author', content: 'Thornebridge' }],
     ['meta', { name: 'robots', content: 'index, follow' }],
-    ['meta', { name: 'keywords', content: 'convoso, api, sdk, typescript, javascript, call center, dialer, leads, dnc, node.js' }],
+    [
+      'meta',
+      {
+        name: 'keywords',
+        content:
+          'convoso, api, sdk, typescript, javascript, call center, dialer, leads, dnc, node.js',
+      },
+    ],
 
     // Context7 chat widget
-    ['script', { src: 'https://context7.com/widget.js', 'data-library': '/thornebridge/convoso-js' }],
+    [
+      'script',
+      { src: 'https://context7.com/widget.js', 'data-library': '/thornebridge/convoso-js' },
+    ],
 
     // JSON-LD structured data
-    ['script', { type: 'application/ld+json' }, JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'SoftwareSourceCode',
-      name: 'convoso-js',
-      description: SITE_DESCRIPTION,
-      url: SITE_URL,
-      codeRepository: 'https://github.com/thornebridge/convoso-js',
-      programmingLanguage: 'TypeScript',
-      runtimePlatform: 'Node.js',
-      license: 'https://opensource.org/licenses/MIT',
-      author: {
-        '@type': 'Organization',
-        name: 'Thornebridge',
-        url: 'https://github.com/thornebridge',
-      },
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-    })],
+    [
+      'script',
+      { type: 'application/ld+json' },
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: 'convoso-js',
+        description: SITE_DESCRIPTION,
+        url: SITE_URL,
+        codeRepository: 'https://github.com/thornebridge/convoso-js',
+        programmingLanguage: 'TypeScript',
+        runtimePlatform: 'Node.js',
+        license: 'https://opensource.org/licenses/MIT',
+        author: {
+          '@type': 'Organization',
+          name: 'Thornebridge',
+          url: 'https://github.com/thornebridge',
+        },
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      }),
+    ],
   ],
 
   transformPageData(pageData) {
     // Build per-page canonical URL
-    const pagePath = pageData.relativePath
-      .replace(/index\.md$/, '')
-      .replace(/\.md$/, '');
+    const pagePath = pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '');
     const canonicalUrl = `${SITE_URL}${pagePath}`;
 
     // Build page title for OG
@@ -140,15 +156,11 @@ export default defineConfig({
       '/api-reference/': [
         {
           text: 'API Reference',
-          items: [
-            { text: 'Overview', link: '/api-reference/' },
-          ],
+          items: [{ text: 'Overview', link: '/api-reference/' }],
         },
         {
           text: 'Authentication',
-          items: [
-            { text: 'Authentication', link: '/api-reference/authentication' },
-          ],
+          items: [{ text: 'Authentication', link: '/api-reference/authentication' }],
         },
         {
           text: 'Agent APIs',
@@ -195,9 +207,7 @@ export default defineConfig({
       '/resources/': [
         {
           text: 'Resources',
-          items: [
-            { text: 'SDK Resource Map', link: '/resources/' },
-          ],
+          items: [{ text: 'SDK Resource Map', link: '/resources/' }],
         },
       ],
     },

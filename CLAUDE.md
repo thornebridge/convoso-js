@@ -8,6 +8,11 @@ Unofficial TypeScript SDK for the Convoso API. Zero runtime dependencies, native
 npm run typecheck    # tsc --noEmit
 npm run build        # tsup → dist/ (ESM + CJS + .d.ts)
 npm test             # vitest run
+npm run coverage     # vitest with v8 coverage report
+npm run lint         # ESLint
+npm run lint:fix     # ESLint with auto-fix
+npm run format       # Prettier (write)
+npm run format:check # Prettier (check only)
 npm run docs:dev     # VitePress dev server
 npm run docs:build   # Build docs site
 ```

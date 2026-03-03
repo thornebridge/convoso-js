@@ -41,7 +41,10 @@ describe('HttpClient', () => {
 
   it('throws ConvosoHttpError on non-2xx response', async () => {
     const mockFetch: typeof globalThis.fetch = async () => {
-      return new Response('Internal Server Error', { status: 500, statusText: 'Internal Server Error' });
+      return new Response('Internal Server Error', {
+        status: 500,
+        statusText: 'Internal Server Error',
+      });
     };
 
     const client = new HttpClient({ authToken: 'token', fetch: mockFetch });
@@ -58,7 +61,10 @@ describe('HttpClient', () => {
 
   it('throws ConvosoApiError when success is false', async () => {
     const mockFetch: typeof globalThis.fetch = async () => {
-      return new Response(JSON.stringify({ success: false, code: 6001, message: 'Lead not found' }), { status: 200 });
+      return new Response(
+        JSON.stringify({ success: false, code: 6001, message: 'Lead not found' }),
+        { status: 200 },
+      );
     };
 
     const client = new HttpClient({ authToken: 'token', fetch: mockFetch });
@@ -76,7 +82,10 @@ describe('HttpClient', () => {
 
   it('uses error field when message is absent', async () => {
     const mockFetch: typeof globalThis.fetch = async () => {
-      return new Response(JSON.stringify({ success: false, code: 9999, error: 'Something broke' }), { status: 200 });
+      return new Response(
+        JSON.stringify({ success: false, code: 9999, error: 'Something broke' }),
+        { status: 200 },
+      );
     };
 
     const client = new HttpClient({ authToken: 'token', fetch: mockFetch });
@@ -96,7 +105,11 @@ describe('HttpClient', () => {
       return new Response(JSON.stringify({ ok: true }), { status: 200 });
     };
 
-    const client = new HttpClient({ authToken: 'token', baseUrl: 'https://custom.example.com/v2', fetch: mockFetch });
+    const client = new HttpClient({
+      authToken: 'token',
+      baseUrl: 'https://custom.example.com/v2',
+      fetch: mockFetch,
+    });
     await client.post('/test');
   });
 });

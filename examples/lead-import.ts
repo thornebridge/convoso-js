@@ -51,7 +51,7 @@ async function importLeads() {
   // Verify by paginating through all leads in the list
   console.log('\nVerifying imported leads...');
   let count = 0;
-  for await (const lead of client.leads.searchAll({ list_id: '1001', pageSize: 50 })) {
+  for await (const _lead of client.leads.searchAll({ list_id: '1001', pageSize: 50 })) {
     count++;
   }
   console.log(`Total leads in list 1001: ${count}`);

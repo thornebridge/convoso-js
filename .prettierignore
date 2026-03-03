@@ -1,0 +1,5 @@
+dist/
+docs-site/.vitepress/dist/
+docs-site/.vitepress/cache/
+coverage/
+*.md

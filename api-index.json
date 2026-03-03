@@ -96,14 +96,38 @@
               { "name": "queue_id", "type": "string", "description": "Current queue ID" },
               { "name": "queue_name", "type": "string", "description": "Current queue name" },
               { "name": "extension", "type": "string", "description": "Agent extension number" },
-              { "name": "channel_type", "type": "string", "description": "Communication channel type" },
+              {
+                "name": "channel_type",
+                "type": "string",
+                "description": "Communication channel type"
+              },
               { "name": "call_type", "type": "string", "description": "Type of current call" },
-              { "name": "calls_today", "type": "integer", "description": "Number of calls made today" },
-              { "name": "total_calls", "type": "integer", "description": "Total calls for session" },
+              {
+                "name": "calls_today",
+                "type": "integer",
+                "description": "Number of calls made today"
+              },
+              {
+                "name": "total_calls",
+                "type": "integer",
+                "description": "Total calls for session"
+              },
               { "name": "status", "type": "string", "description": "Current status code" },
-              { "name": "status_label", "type": "string", "description": "Human-readable status label" },
-              { "name": "status_time_sec", "type": "integer", "description": "Seconds in current status" },
-              { "name": "status_time_mmss", "type": "string", "description": "Time in MM:SS format" }
+              {
+                "name": "status_label",
+                "type": "string",
+                "description": "Human-readable status label"
+              },
+              {
+                "name": "status_time_sec",
+                "type": "integer",
+                "description": "Seconds in current status"
+              },
+              {
+                "name": "status_time_mmss",
+                "type": "string",
+                "description": "Time in MM:SS format"
+              }
             ]
           },
           {
@@ -217,7 +241,11 @@
           { "name": "pause_sec", "type": "string", "description": "Total pause time in HH:MM:SS" },
           { "name": "wrap_sec", "type": "string", "description": "Total wrap-up time in HH:MM:SS" },
           { "name": "total_time", "type": "string", "description": "Total time in HH:MM:SS" },
-          { "name": "call_type", "type": "string", "description": "Type of calls (inbound/outbound)" }
+          {
+            "name": "call_type",
+            "type": "string",
+            "description": "Type of calls (inbound/outbound)"
+          }
         ]
       }
     },
@@ -282,10 +310,22 @@
             "subfields": [
               { "name": "id", "type": "string", "description": "Entry ID" },
               { "name": "user_id", "type": "string", "description": "Agent user ID" },
-              { "name": "state", "type": "string", "description": "Current state (LOGIN/Ready/NotReady/LogOut)" },
-              { "name": "availability_code", "type": "string", "description": "Availability status code" },
+              {
+                "name": "state",
+                "type": "string",
+                "description": "Current state (LOGIN/Ready/NotReady/LogOut)"
+              },
+              {
+                "name": "availability_code",
+                "type": "string",
+                "description": "Availability status code"
+              },
               { "name": "campaign_id", "type": "string", "description": "Campaign ID" },
-              { "name": "event_epoch", "type": "integer", "description": "Unix timestamp of event" },
+              {
+                "name": "event_epoch",
+                "type": "integer",
+                "description": "Unix timestamp of event"
+              },
               { "name": "event_sec", "type": "integer", "description": "Seconds since event" },
               { "name": "created_at", "type": "string", "description": "Creation timestamp" },
               { "name": "user_name", "type": "string", "description": "Agent name" },
@@ -667,7 +707,11 @@
               { "name": "lead_id", "type": "string", "description": "Associated lead ID" },
               { "name": "list_id", "type": "string", "description": "Associated list ID" },
               { "name": "campaign_id", "type": "string", "description": "Associated campaign ID" },
-              { "name": "callback_time", "type": "string", "description": "Scheduled callback time" },
+              {
+                "name": "callback_time",
+                "type": "string",
+                "description": "Scheduled callback time"
+              },
               { "name": "stage", "type": "string", "description": "Current stage status" },
               { "name": "recipient", "type": "string", "description": "Callback recipient type" },
               { "name": "comments", "type": "string", "description": "Callback comments" }
@@ -764,7 +808,11 @@
             "type": "object",
             "description": "Response data",
             "subfields": [
-              { "name": "callback_id", "type": "string", "description": "ID of newly created callback" }
+              {
+                "name": "callback_id",
+                "type": "string",
+                "description": "ID of newly created callback"
+              }
             ]
           }
         ]
@@ -796,7 +844,11 @@
               { "name": "id", "type": "string", "description": "Campaign ID" },
               { "name": "name", "type": "string", "description": "Campaign name" },
               { "name": "status", "type": "string", "description": "Campaign status: Y or N" },
-              { "name": "last_call_date", "type": "object", "description": "Last call date object with date and timezone info" }
+              {
+                "name": "last_call_date",
+                "type": "object",
+                "description": "Last call date object with date and timezone info"
+              }
             ]
           }
         ]
@@ -1246,14 +1298,22 @@
               { "name": "status", "type": "string", "description": "Lead status code" },
               { "name": "list_id", "type": "string", "description": "Associated list ID" },
               { "name": "created_at", "type": "string", "description": "Creation timestamp" },
-              { "name": "modified_at", "type": "string", "description": "Last modification timestamp" },
+              {
+                "name": "modified_at",
+                "type": "string",
+                "description": "Last modification timestamp"
+              },
               { "name": "address1", "type": "string", "description": "Street address" },
               { "name": "city", "type": "string", "description": "City" },
               { "name": "state", "type": "string", "description": "State/Province" },
               { "name": "postal_code", "type": "string", "description": "Postal code" },
               { "name": "country", "type": "string", "description": "Country" },
               { "name": "carrier_name", "type": "string", "description": "Carrier name" },
-              { "name": "carrier_type", "type": "string", "description": "Carrier type (wireless/landline)" }
+              {
+                "name": "carrier_type",
+                "type": "string",
+                "description": "Carrier type (wireless/landline)"
+              }
             ]
           },
           { "name": "offset", "type": "integer", "description": "Pagination offset" },
@@ -1491,7 +1551,11 @@
             "type": "object",
             "description": "Response data",
             "subfields": [
-              { "name": "lead_id", "type": "string", "description": "ID of newly created/updated lead" }
+              {
+                "name": "lead_id",
+                "type": "string",
+                "description": "ID of newly created/updated lead"
+              }
             ]
           },
           { "name": "id", "type": "string", "description": "Lead ID" }
@@ -1593,9 +1657,7 @@
             "name": "data",
             "type": "object",
             "description": "Response data",
-            "subfields": [
-              { "name": "lead_id", "type": "string", "description": "Updated lead ID" }
-            ]
+            "subfields": [{ "name": "lead_id", "type": "string", "description": "Updated lead ID" }]
           }
         ]
       }
@@ -1660,9 +1722,21 @@
       "response": {
         "type": "object",
         "fields": [
-          { "name": "result", "type": "string", "description": "True if accepted, False if rejected" },
-          { "name": "lead_id", "type": "string", "description": "ID of created lead (if accepted)" },
-          { "name": "error_description", "type": "string", "description": "Error reason (if rejected)" }
+          {
+            "name": "result",
+            "type": "string",
+            "description": "True if accepted, False if rejected"
+          },
+          {
+            "name": "lead_id",
+            "type": "string",
+            "description": "ID of created lead (if accepted)"
+          },
+          {
+            "name": "error_description",
+            "type": "string",
+            "description": "Error reason (if rejected)"
+          }
         ]
       }
     },
@@ -1766,9 +1840,7 @@
             "name": "data",
             "type": "object",
             "description": "Response data",
-            "subfields": [
-              { "name": "list_id", "type": "string", "description": "Updated list ID" }
-            ]
+            "subfields": [{ "name": "list_id", "type": "string", "description": "Updated list ID" }]
           }
         ]
       }
@@ -2102,9 +2174,7 @@
             "name": "data",
             "type": "object",
             "description": "Response data",
-            "subfields": [
-              { "name": "id", "type": "string", "description": "Updated record ID" }
-            ]
+            "subfields": [{ "name": "id", "type": "string", "description": "Updated record ID" }]
           }
         ]
       },
@@ -2157,9 +2227,7 @@
       ],
       "response": {
         "type": "object",
-        "fields": [
-          { "name": "success", "type": "boolean", "description": "Success status" }
-        ]
+        "fields": [{ "name": "success", "type": "boolean", "description": "Success status" }]
       },
       "errorCodes": [6006, 6007, 6008, 6026, 6057, 6058]
     },
@@ -2437,8 +2505,16 @@
             "type": "object",
             "description": "Availability data",
             "subfields": [
-              { "name": "available_agents", "type": "integer", "description": "Number of available agents" },
-              { "name": "logged_in_agents", "type": "integer", "description": "Number of logged in agents" }
+              {
+                "name": "available_agents",
+                "type": "integer",
+                "description": "Number of available agents"
+              },
+              {
+                "name": "logged_in_agents",
+                "type": "integer",
+                "description": "Number of logged in agents"
+              }
             ]
           }
         ]
@@ -2488,10 +2564,22 @@
           { "name": "status", "type": "string", "description": "User status" },
           { "name": "last_login", "type": "string", "description": "Last login timestamp" },
           { "name": "local_gmt", "type": "string", "description": "Local GMT offset" },
-          { "name": "connection_type", "type": "string", "description": "Connection type (VoIP/Desk/etc)" },
+          {
+            "name": "connection_type",
+            "type": "string",
+            "description": "Connection type (VoIP/Desk/etc)"
+          },
           { "name": "extension", "type": "array", "description": "Array of assigned extensions" },
-          { "name": "acl_access_profile", "type": "string", "description": "Access control profile" },
-          { "name": "allow_queue_selection", "type": "boolean", "description": "Can select queues" },
+          {
+            "name": "acl_access_profile",
+            "type": "string",
+            "description": "Access control profile"
+          },
+          {
+            "name": "allow_queue_selection",
+            "type": "boolean",
+            "description": "Can select queues"
+          },
           { "name": "allow_callbacks", "type": "boolean", "description": "Can manage callbacks" },
           { "name": "allow_transfers", "type": "boolean", "description": "Can transfer calls" }
         ]

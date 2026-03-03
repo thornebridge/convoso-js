@@ -1,7 +1,11 @@
 import { ConvosoApiError, ConvosoHttpError } from './errors.js';
 
 export type RequestHook = (path: string, params: URLSearchParams) => void | Promise<void>;
-export type ResponseHook = (path: string, response: Response, data: unknown) => void | Promise<void>;
+export type ResponseHook = (
+  path: string,
+  response: Response,
+  data: unknown,
+) => void | Promise<void>;
 
 export interface HttpClientOptions {
   authToken: string;
@@ -68,7 +72,7 @@ export class HttpClient {
         throw new ConvosoHttpError(response.status, response.statusText, text);
       }
 
-      const data = await response.json() as Record<string, unknown>;
+      const data = (await response.json()) as Record<string, unknown>;
 
       if (this.onResponse) {
         await this.onResponse(path, response, data);
@@ -76,11 +80,12 @@ export class HttpClient {
 
       if (data.success === false) {
         const code = typeof data.code === 'number' ? data.code : 0;
-        const message = typeof data.message === 'string'
-          ? data.message
-          : typeof data.error === 'string'
-            ? data.error
-            : 'API request failed';
+        const message =
+          typeof data.message === 'string'
+            ? data.message
+            : typeof data.error === 'string'
+              ? data.error
+              : 'API request failed';
         throw new ConvosoApiError(message, code, data);
       }
 

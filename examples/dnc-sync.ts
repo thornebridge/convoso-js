@@ -7,7 +7,7 @@
  * Usage: npx tsx examples/dnc-sync.ts
  */
 
-import { Convoso, ConvosoApiError, CONVOSO_ERROR_CODES } from 'convoso-js';
+import { Convoso, ConvosoApiError } from 'convoso-js';
 
 const client = new Convoso({
   authToken: process.env.CONVOSO_AUTH_TOKEN!,

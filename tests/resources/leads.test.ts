@@ -3,16 +3,48 @@ import { createMockClient } from '../helpers.js';
 
 describe('Leads', () => {
   const client = createMockClient((path, params) => {
-    if (path === '/leads/search') return {
-      results: [{ id: '200', first_name: 'Jane', last_name: 'Smith', phone_number: '5551234567', email: 'jane@example.com', status: 'NEW', list_id: '333', created_at: '2026-03-01 09:00:00', modified_at: '2026-03-01 09:00:00', address1: '123 Main St', city: 'Los Angeles', state: 'CA', postal_code: '90001', country: 'US', carrier_name: 'AT&T', carrier_type: 'wireless' }],
-      offset: 0, limit: 10,
-    };
+    if (path === '/leads/search')
+      return {
+        results: [
+          {
+            id: '200',
+            first_name: 'Jane',
+            last_name: 'Smith',
+            phone_number: '5551234567',
+            email: 'jane@example.com',
+            status: 'NEW',
+            list_id: '333',
+            created_at: '2026-03-01 09:00:00',
+            modified_at: '2026-03-01 09:00:00',
+            address1: '123 Main St',
+            city: 'Los Angeles',
+            state: 'CA',
+            postal_code: '90001',
+            country: 'US',
+            carrier_name: 'AT&T',
+            carrier_type: 'wireless',
+          },
+        ],
+        offset: 0,
+        limit: 10,
+      };
     if (path === '/leads/insert') return { success: true, data: { lead_id: '201' }, id: '201' };
-    if (path === '/leads/update') return { success: true, data: { lead_id: params.get('lead_id') } };
+    if (path === '/leads/update')
+      return { success: true, data: { lead_id: params.get('lead_id') } };
     if (path === '/leads/delete') return { success: true };
-    if (path === '/leads/get-recordings') return {
-      entries: [{ recording_id: 'rec-001', lead_id: params.get('lead_id'), start_time: '2026-03-01 14:00:00', end_time: '2026-03-01 14:03:00', seconds: 180, url: 'https://recordings.convoso.com/rec-001.mp3' }],
-    };
+    if (path === '/leads/get-recordings')
+      return {
+        entries: [
+          {
+            recording_id: 'rec-001',
+            lead_id: params.get('lead_id'),
+            start_time: '2026-03-01 14:00:00',
+            end_time: '2026-03-01 14:03:00',
+            seconds: 180,
+            url: 'https://recordings.convoso.com/rec-001.mp3',
+          },
+        ],
+      };
     return {};
   });
 
@@ -23,7 +55,11 @@ describe('Leads', () => {
   });
 
   it('insert()', async () => {
-    const result = await client.leads.insert({ list_id: '333', phone_number: '5551234567', first_name: 'John' });
+    const result = await client.leads.insert({
+      list_id: '333',
+      phone_number: '5551234567',
+      first_name: 'John',
+    });
     expect(result.success).toBe(true);
     expect(result.data.lead_id).toBe('201');
   });

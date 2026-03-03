@@ -17,7 +17,9 @@ export class CallLogsResource extends BaseResource {
     return this.http.post('/log/retrieve', params);
   }
 
-  async *retrieveAll(params?: Omit<CallLogRetrieveParams, 'offset' | 'limit'> & PageOptions): AsyncGenerator<CallLogRecord> {
+  async *retrieveAll(
+    params?: Omit<CallLogRetrieveParams, 'offset' | 'limit'> & PageOptions,
+  ): AsyncGenerator<CallLogRecord> {
     const { pageSize, ...rest } = params ?? {};
     const limit = pageSize ?? 100;
     let offset = 0;

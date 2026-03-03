@@ -19,7 +19,9 @@ export class LeadsResource extends BaseResource {
     return this.http.post('/leads/search', params);
   }
 
-  async *searchAll(params?: Omit<LeadSearchParams, 'offset' | 'limit'> & PageOptions): AsyncGenerator<LeadRecord> {
+  async *searchAll(
+    params?: Omit<LeadSearchParams, 'offset' | 'limit'> & PageOptions,
+  ): AsyncGenerator<LeadRecord> {
     const { pageSize, ...rest } = params ?? {};
     const limit = pageSize ?? 100;
     let offset = 0;
@@ -47,7 +49,9 @@ export class LeadsResource extends BaseResource {
     return this.http.post('/leads/get-recordings', params);
   }
 
-  async *getRecordingsAll(params: Omit<LeadGetRecordingsParams, 'offset' | 'limit'> & PageOptions): AsyncGenerator<LeadGetRecordingsResponse['entries'][number]> {
+  async *getRecordingsAll(
+    params: Omit<LeadGetRecordingsParams, 'offset' | 'limit'> & PageOptions,
+  ): AsyncGenerator<LeadGetRecordingsResponse['entries'][number]> {
     const { pageSize, ...rest } = params;
     const limit = pageSize ?? 100;
     let offset = 0;

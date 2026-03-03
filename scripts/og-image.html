@@ -1,188 +1,205 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  body {
-    width: 1200px;
-    height: 630px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(145deg, #1a1030 0%, #0f0a1e 40%, #150e28 100%);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    overflow: hidden;
-    position: relative;
-  }
+      body {
+        width: 1200px;
+        height: 630px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(145deg, #1a1030 0%, #0f0a1e 40%, #150e28 100%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        overflow: hidden;
+        position: relative;
+      }
 
-  /* Subtle grid pattern */
-  body::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(120, 86, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(120, 86, 255, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
+      /* Subtle grid pattern */
+      body::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(120, 86, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(120, 86, 255, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
 
-  /* Gradient orbs */
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-  }
-  .orb-1 {
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(120, 86, 255, 0.25) 0%, transparent 70%);
-    top: -150px; right: -100px;
-  }
-  .orb-2 {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(80, 40, 189, 0.2) 0%, transparent 70%);
-    bottom: -100px; left: -50px;
-  }
-  .orb-3 {
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(253, 255, 107, 0.08) 0%, transparent 70%);
-    top: 60%; left: 60%;
-  }
+      /* Gradient orbs */
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+      }
+      .orb-1 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(120, 86, 255, 0.25) 0%, transparent 70%);
+        top: -150px;
+        right: -100px;
+      }
+      .orb-2 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(80, 40, 189, 0.2) 0%, transparent 70%);
+        bottom: -100px;
+        left: -50px;
+      }
+      .orb-3 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(253, 255, 107, 0.08) 0%, transparent 70%);
+        top: 60%;
+        left: 60%;
+      }
 
-  .content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
+      .content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
 
-  /* Convoso logo placeholder - using text */
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 8px;
-  }
+      /* Convoso logo placeholder - using text */
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 8px;
+      }
 
-  .logo-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #7856ff, #5028bd);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      .logo-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #7856ff, #5028bd);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .logo-icon svg {
-    width: 28px;
-    height: 28px;
-  }
+      .logo-icon svg {
+        width: 28px;
+        height: 28px;
+      }
 
-  .logo-text {
-    font-size: 22px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+      .logo-text {
+        font-size: 22px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
 
-  .title {
-    font-size: 82px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #7856ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -2px;
-    line-height: 1;
-  }
+      .title {
+        font-size: 82px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #7856ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -2px;
+        line-height: 1;
+      }
 
-  .subtitle {
-    font-size: 28px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 400;
-    max-width: 700px;
-    line-height: 1.4;
-  }
+      .subtitle {
+        font-size: 28px;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 400;
+        max-width: 700px;
+        line-height: 1.4;
+      }
 
-  .pills {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-  }
+      .pills {
+        display: flex;
+        gap: 12px;
+        margin-top: 12px;
+      }
 
-  .pill {
-    padding: 8px 20px;
-    border-radius: 100px;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
+      .pill {
+        padding: 8px 20px;
+        border-radius: 100px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
 
-  .pill-purple {
-    background: rgba(120, 86, 255, 0.15);
-    border: 1px solid rgba(120, 86, 255, 0.3);
-    color: #b49dff;
-  }
+      .pill-purple {
+        background: rgba(120, 86, 255, 0.15);
+        border: 1px solid rgba(120, 86, 255, 0.3);
+        color: #b49dff;
+      }
 
-  .pill-yellow {
-    background: rgba(253, 255, 107, 0.08);
-    border: 1px solid rgba(253, 255, 107, 0.2);
-    color: rgba(253, 255, 107, 0.8);
-  }
+      .pill-yellow {
+        background: rgba(253, 255, 107, 0.08);
+        border: 1px solid rgba(253, 255, 107, 0.2);
+        color: rgba(253, 255, 107, 0.8);
+      }
 
-  .footer-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #5028bd, #7856ff, #9b7dff, #fdff6b);
-  }
+      .footer-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #5028bd, #7856ff, #9b7dff, #fdff6b);
+      }
 
-  .built-by {
-    position: absolute;
-    bottom: 24px;
-    right: 40px;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.3);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    z-index: 1;
-  }
-</style>
-</head>
-<body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+      .built-by {
+        position: absolute;
+        bottom: 24px;
+        right: 40px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.3);
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-  <div class="content">
-    <div class="logo-area">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
-        </svg>
+    <div class="content">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <span class="logo-text">Convoso API</span>
       </div>
-      <span class="logo-text">Convoso API</span>
+      <div class="title">convoso-js</div>
+      <div class="subtitle">The unofficial TypeScript SDK for the Convoso API</div>
+      <div class="pills">
+        <span class="pill pill-purple">Zero Dependencies</span>
+        <span class="pill pill-purple">Fully Typed</span>
+        <span class="pill pill-purple">Auto-Pagination</span>
+        <span class="pill pill-yellow">37 Endpoints</span>
+      </div>
     </div>
-    <div class="title">convoso-js</div>
-    <div class="subtitle">The unofficial TypeScript SDK for the Convoso API</div>
-    <div class="pills">
-      <span class="pill pill-purple">Zero Dependencies</span>
-      <span class="pill pill-purple">Fully Typed</span>
-      <span class="pill pill-purple">Auto-Pagination</span>
-      <span class="pill pill-yellow">37 Endpoints</span>
-    </div>
-  </div>
 
-  <div class="built-by">thornebridge.github.io/convoso-js</div>
-  <div class="footer-bar"></div>
-</body>
+    <div class="built-by">thornebridge.github.io/convoso-js</div>
+    <div class="footer-bar"></div>
+  </body>
 </html>

@@ -16,6 +16,7 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-strict-7856ff" alt="TypeScript" /></a>
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18%2B-7856ff" alt="Node.js" /></a>
   <a href="https://pkg-size.dev/convoso-js"><img src="https://img.shields.io/badge/bundle-~3kB_gzip-7856ff" alt="Bundle size" /></a>
+  <a href="https://github.com/thornebridge/convoso-js/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-99%25-7856ff" alt="Coverage" /></a>
 </p>
 
 <p align="center">

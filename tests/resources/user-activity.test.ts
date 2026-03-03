@@ -3,7 +3,8 @@ import { createMockClient } from '../helpers.js';
 
 describe('UserActivity', () => {
   const client = createMockClient(() => ({
-    success: true, data: { available_agents: 8, logged_in_agents: 12 },
+    success: true,
+    data: { available_agents: 8, logged_in_agents: 12 },
   }));
 
   it('search()', async () => {

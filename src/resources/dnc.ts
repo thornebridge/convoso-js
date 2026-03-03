@@ -17,7 +17,9 @@ export class DncResource extends BaseResource {
     return this.http.post('/dnc/search', params);
   }
 
-  async *searchAll(params?: Omit<DncSearchParams, 'offset' | 'limit'> & PageOptions): AsyncGenerator<DncRecord> {
+  async *searchAll(
+    params?: Omit<DncSearchParams, 'offset' | 'limit'> & PageOptions,
+  ): AsyncGenerator<DncRecord> {
     const { pageSize, ...rest } = params ?? {};
     const limit = pageSize ?? 100;
     let offset = 0;

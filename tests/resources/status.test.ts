@@ -3,8 +3,25 @@ import { createMockClient } from '../helpers.js';
 
 describe('Status', () => {
   const client = createMockClient((path, params) => {
-    if (path === '/status/search') return { data: [{ status: 'SALE', name: 'Sale', final: 'Y', reached: 'Y', success: 'Y', dnc: 'N', callback: 'N', contact: 'Y', voicemail: 'N', hex_color: '#00FF00' }] };
-    if (path === '/status/insert') return { success: true, code: 200, data: { new: 'Y', status: params.get('status') } };
+    if (path === '/status/search')
+      return {
+        data: [
+          {
+            status: 'SALE',
+            name: 'Sale',
+            final: 'Y',
+            reached: 'Y',
+            success: 'Y',
+            dnc: 'N',
+            callback: 'N',
+            contact: 'Y',
+            voicemail: 'N',
+            hex_color: '#00FF00',
+          },
+        ],
+      };
+    if (path === '/status/insert')
+      return { success: true, code: 200, data: { new: 'Y', status: params.get('status') } };
     if (path === '/status/update') return { success: true, data: { status: params.get('status') } };
     return {};
   });
@@ -17,7 +34,17 @@ describe('Status', () => {
   });
 
   it('insert()', async () => {
-    const result = await client.status.insert({ status: 'XFER', name: 'Transfer', final: 'N', reached: 'Y', success: 'N', dnc: 'N', callback: 'N', contact: 'Y', voicemail: 'N' });
+    const result = await client.status.insert({
+      status: 'XFER',
+      name: 'Transfer',
+      final: 'N',
+      reached: 'Y',
+      success: 'N',
+      dnc: 'N',
+      callback: 'N',
+      contact: 'Y',
+      voicemail: 'N',
+    });
     expect(result.success).toBe(true);
     expect(result.data.status).toBe('XFER');
   });

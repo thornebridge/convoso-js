@@ -17,7 +17,9 @@ export class CallbacksResource extends BaseResource {
     return this.http.post('/callbacks/search', params);
   }
 
-  async *searchAll(params?: Omit<CallbackSearchParams, 'offset' | 'limit'> & PageOptions): AsyncGenerator<CallbackRecord> {
+  async *searchAll(
+    params?: Omit<CallbackSearchParams, 'offset' | 'limit'> & PageOptions,
+  ): AsyncGenerator<CallbackRecord> {
     const { pageSize, ...rest } = params ?? {};
     const limit = pageSize ?? 100;
     let offset = 0;

@@ -17,7 +17,7 @@ describe('Auto-Pagination', () => {
         records.push(record);
       }
       expect(records).toHaveLength(3);
-      expect(records.map(r => r.id)).toEqual(['1', '2', '3']);
+      expect(records.map((r) => r.id)).toEqual(['1', '2', '3']);
     });
 
     it('handles empty results', async () => {
@@ -35,7 +35,8 @@ describe('Auto-Pagination', () => {
       const client = createMockClient((path, params) => {
         if (path !== '/log/retrieve') return {};
         const offset = Number(params.get('offset') ?? 0);
-        if (offset === 0) return { results: [{ id: '10' }, { id: '11' }], offset: 0, limit: 2, total_found: 3 };
+        if (offset === 0)
+          return { results: [{ id: '10' }, { id: '11' }], offset: 0, limit: 2, total_found: 3 };
         if (offset === 2) return { results: [{ id: '12' }], offset: 2, limit: 2, total_found: 3 };
         return { results: [], offset, limit: 2, total_found: 3 };
       });
@@ -53,7 +54,8 @@ describe('Auto-Pagination', () => {
       const client = createMockClient((path, params) => {
         if (path !== '/dnc/search') return {};
         const offset = Number(params.get('offset') ?? 0);
-        if (offset === 0) return { entries: [{ id: '1' }, { id: '2' }], offset: 0, limit: 2, total: 3 };
+        if (offset === 0)
+          return { entries: [{ id: '1' }, { id: '2' }], offset: 0, limit: 2, total: 3 };
         if (offset === 2) return { entries: [{ id: '3' }], offset: 2, limit: 2, total: 3 };
         return { entries: [], offset, limit: 2, total: 3 };
       });
@@ -71,7 +73,8 @@ describe('Auto-Pagination', () => {
       const client = createMockClient((path, params) => {
         if (path !== '/callbacks/search') return {};
         const offset = Number(params.get('offset') ?? 0);
-        if (offset === 0) return { results: [{ id: 'cb1' }, { id: 'cb2' }], offset: 0, limit: 2, total: 3 };
+        if (offset === 0)
+          return { results: [{ id: 'cb1' }, { id: 'cb2' }], offset: 0, limit: 2, total: 3 };
         if (offset === 2) return { results: [{ id: 'cb3' }], offset: 2, limit: 2, total: 3 };
         return { results: [], offset, limit: 2, total: 3 };
       });
@@ -89,7 +92,8 @@ describe('Auto-Pagination', () => {
       const client = createMockClient((path, params) => {
         if (path !== '/sms-opt-out/search') return {};
         const offset = Number(params.get('offset') ?? 0);
-        if (offset === 0) return { records: [{ id: '1' }, { id: '2' }], offset: 0, limit: 2, total: 2 };
+        if (offset === 0)
+          return { records: [{ id: '1' }, { id: '2' }], offset: 0, limit: 2, total: 2 };
         return { records: [], offset, limit: 2, total: 2 };
       });
 

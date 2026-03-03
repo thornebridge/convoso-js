@@ -22,6 +22,11 @@ npm run typecheck    # tsc --noEmit
 npm run build        # tsup → dist/
 npm test             # vitest run
 npm run test:watch   # vitest (watch mode)
+npm run coverage     # vitest with coverage report
+npm run lint         # ESLint
+npm run lint:fix     # ESLint with auto-fix
+npm run format       # Prettier (write)
+npm run format:check # Prettier (check only)
 ```
 
 ## Architecture
@@ -63,5 +68,12 @@ src/
 
 1. Fork the repo and create a feature branch
 2. Make your changes
-3. Ensure `npm run typecheck && npm run build && npm test` all pass
+3. Ensure all checks pass:
+   ```bash
+   npm run lint
+   npm run format:check
+   npm run typecheck
+   npm run build
+   npm test
+   ```
 4. Submit a PR against `main`

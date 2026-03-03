@@ -3,7 +3,8 @@ import { createMockClient } from '../helpers.js';
 
 describe('Revenue', () => {
   const client = createMockClient((_path, params) => ({
-    success: true, data: { call_log_id: params.get('call_log_id') },
+    success: true,
+    data: { call_log_id: params.get('call_log_id') },
   }));
 
   it('update()', async () => {

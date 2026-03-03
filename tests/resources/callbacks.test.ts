@@ -3,9 +3,27 @@ import { createMockClient } from '../helpers.js';
 
 describe('Callbacks', () => {
   const client = createMockClient((path, params) => {
-    if (path === '/callbacks/search') return { offset: 0, limit: 20, total: 1, results: [{ id: '3001', lead_id: '200', list_id: '333', campaign_id: '1', callback_time: '2026-03-02 10:00 AM', stage: 'PENDING', recipient: 'system', comments: 'Follow up' }] };
+    if (path === '/callbacks/search')
+      return {
+        offset: 0,
+        limit: 20,
+        total: 1,
+        results: [
+          {
+            id: '3001',
+            lead_id: '200',
+            list_id: '333',
+            campaign_id: '1',
+            callback_time: '2026-03-02 10:00 AM',
+            stage: 'PENDING',
+            recipient: 'system',
+            comments: 'Follow up',
+          },
+        ],
+      };
     if (path === '/callbacks/insert') return { success: true, data: { callback_id: '3002' } };
-    if (path === '/callbacks/update') return { success: true, data: { callback_id: params.get('callback_id') } };
+    if (path === '/callbacks/update')
+      return { success: true, data: { callback_id: params.get('callback_id') } };
     if (path === '/callbacks/delete') return { success: true };
     return {};
   });
@@ -17,7 +35,12 @@ describe('Callbacks', () => {
   });
 
   it('insert()', async () => {
-    const result = await client.callbacks.insert({ lead_id: '200', recipient: 'system', callback_time_zone: -7, callback_time: '2026-03-02 10:00 AM' });
+    const result = await client.callbacks.insert({
+      lead_id: '200',
+      recipient: 'system',
+      callback_time_zone: -7,
+      callback_time: '2026-03-02 10:00 AM',
+    });
     expect(result.success).toBe(true);
     expect(result.data.callback_id).toBe('3002');
   });
