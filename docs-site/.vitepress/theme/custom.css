@@ -55,6 +55,16 @@
   --vp-home-hero-image-background-image: linear-gradient(135deg, #7856ff30 0%, #5028bd30 100%);
 }
 
+/* Hero logo image — ensure it renders well at all sizes */
+.VPHero .VPImage {
+  max-width: 240px;
+  max-height: 240px;
+}
+
+.dark .VPHero .VPImage {
+  filter: brightness(1.15);
+}
+
 /* Feature cards — yellow accent on hover */
 .VPFeature:hover {
   border-color: #7856ff !important;
