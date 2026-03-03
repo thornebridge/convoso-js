@@ -5,8 +5,8 @@
 <h1 align="center">convoso-js</h1>
 
 <p align="center">
-  <strong>The unofficial TypeScript SDK for the Convoso API</strong><br />
-  <sub>Zero dependencies &middot; Fully typed &middot; Built for Node.js 18+</sub>
+  <strong>The most complete TypeScript SDK for the Convoso API.</strong><br />
+  <sub>Every endpoint. Every webhook. Zero dependencies. Obsessively typed.</sub>
 </p>
 
 <br />
@@ -40,35 +40,69 @@
 
 <br />
 
-## Why convoso-js?
+## The Convoso API shouldn't be the hard part.
 
-Building on the Convoso API means wrestling with URL-encoded POST endpoints, manual pagination offsets, and undocumented error codes. **convoso-js** wraps all of that into a clean, typed interface so you can focus on your integration — not the plumbing.
+If you've built on the Convoso API, you know the drill: every endpoint is POST with URL-encoded bodies. Pagination is manual offsets. Error codes are numbers with no descriptions. There's no official SDK in any language.
+
+**convoso-js** exists so you never think about any of that again.
 
 ```typescript
 import { Convoso } from 'convoso-js';
 
 const client = new Convoso({ authToken: process.env.CONVOSO_TOKEN! });
 
-// That's it. Start making calls.
+// Search leads with full autocomplete — every param and response field is typed
 const { results } = await client.leads.search({ list_id: '333' });
+
+// Insert a lead — errors are caught, typed, and described for you
+await client.leads.insert({
+  list_id: '333',
+  phone_number: '5551234567',
+  first_name: 'Jane',
+});
+
+// Paginate through thousands of records with a single for-loop
+for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
+  console.log(entry.phone_number);
+}
 ```
+
+That's it. No form encoding. No offset math. No guessing what error code `6002` means.
 
 <br />
 
-## Feature Overview
+---
+
+<br />
+
+## What you get
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-### Zero Dependencies
-Uses native `fetch` — no bloated dependency tree. Ships at **~3 kB gzipped**. Nothing to audit, nothing to conflict.
+### Complete API Coverage
+**37 endpoints** across **16 resources** — leads, lists, DNC, callbacks, call logs, campaigns, agents, SMS opt-out, revenue, and more. If Convoso exposes it, we cover it.
 
 </td>
 <td width="50%" valign="top">
 
-### Fully Typed
-Every parameter and response has strict TypeScript types with JSDoc documentation. Full autocomplete in any editor.
+### Convoso Connect Webhooks
+First-class support for Convoso Connect. Typed interfaces for **76+ webhook fields**, a `parseConnectPayload()` utility, and constants for all 11 workflow events and 12 actions.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### Zero Dependencies
+Built on native `fetch`. No Axios. No node-fetch. No bloated dependency tree. Ships at **~3 kB gzipped**. Nothing to audit, nothing to conflict, nothing to break.
+
+</td>
+<td width="50%" valign="top">
+
+### Obsessively Typed
+Every parameter, every response field, every error code — strict TypeScript with JSDoc on everything. Your editor knows more about the Convoso API than Convoso's own docs.
 
 </td>
 </tr>
@@ -76,13 +110,27 @@ Every parameter and response has strict TypeScript types with JSDoc documentatio
 <td width="50%" valign="top">
 
 ### Auto-Pagination
-Async generators iterate through all results across pages. No manual offset/limit management.
+Six endpoints return async generators that handle offset management, page fetching, and termination. Iterate thousands of records with `for await`.
 
 </td>
 <td width="50%" valign="top">
 
+### Batch Operations
+Built-in `batch()` helper with concurrency-controlled worker pools. Import 10,000 leads without melting your rate limit. Per-item error tracking included.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
 ### Smart Retry
-Exponential backoff with jitter for `429` and `5xx` errors. Respects `Retry-After` headers automatically.
+Exponential backoff with jitter for `429` and `5xx`. Respects `Retry-After` headers. Configurable max retries. Non-retryable errors throw immediately.
+
+</td>
+<td width="50%" valign="top">
+
+### 44 Error Codes Mapped
+Built-in lookup table for every known Convoso error code with human-readable descriptions. `getErrorDescription(6002)` returns `"No such list"`. No more guessing.
 
 </td>
 </tr>
@@ -90,27 +138,27 @@ Exponential backoff with jitter for `429` and `5xx` errors. Respects `Retry-Afte
 <td width="50%" valign="top">
 
 ### Request & Response Hooks
-Plug in logging, metrics, or middleware with `onRequest` / `onResponse` callbacks. Async hooks are fully supported.
+Plug in logging, metrics, or middleware with `onRequest` / `onResponse` callbacks. Async hooks fully supported. Observe every API call without touching resource code.
 
 </td>
 <td width="50%" valign="top">
 
-### Complete Coverage
-**37 endpoints** across **16 resources** — agents, leads, DNC, campaigns, call logs, SMS opt-out, and more.
+### Rate Limit Awareness
+`parseRateLimitHeaders()` extracts `X-RateLimit-Limit`, `Remaining`, and `Reset` from any response. Pair with hooks to build backpressure into your pipeline.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### Dual Format
-Ships ESM + CJS with full `.d.ts` declarations and source maps. Works everywhere — Node.js, Bun, and Deno.
+### Ships Everywhere
+Dual ESM + CJS with full `.d.ts` declarations and source maps. Works out of the box with Node.js, Bun, and Deno.
 
 </td>
 <td width="50%" valign="top">
 
-### 44 Error Codes
-Built-in lookup table for all known Convoso error codes with human-readable descriptions. No more guessing.
+### Battle-Tested
+**111 tests. 99% coverage.** CI runs on Node 18, 20, and 22. Every resource, every edge case, every retry path — tested.
 
 </td>
 </tr>
@@ -143,13 +191,20 @@ bun add convoso-js
 
 <br />
 
+---
+
+<br />
+
 ## Quick Start
+
+### Search, insert, update, delete
 
 ```typescript
 import { Convoso } from 'convoso-js';
 
 const client = new Convoso({
   authToken: process.env.CONVOSO_TOKEN!,
+  maxRetries: 3,
 });
 
 // Search leads
@@ -163,202 +218,63 @@ await client.leads.insert({
   last_name: 'Doe',
 });
 
-// Iterate all DNC entries with auto-pagination
+// Update a lead
+await client.leads.update({ lead_id: '12345', first_name: 'Jane' });
+
+// Delete a lead
+await client.leads.delete({ lead_id: '12345' });
+```
+
+### Auto-paginate through everything
+
+```typescript
+// Iterate all DNC entries — no manual offset management
 for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
   console.log(entry.phone_number);
 }
 
-// Monitor agents in real time
-const monitor = await client.agentMonitor.search({ campaign_id: '111' });
-console.log(`${monitor.agents_ready} agents ready`);
-```
-
-<br />
-
----
-
-<br />
-
-## Configuration
-
-Every option is optional except `authToken`:
-
-```typescript
-const client = new Convoso({
-  // Required — your Convoso API token (injected into every request automatically)
-  authToken: 'your-api-token',
-
-  // Override the base URL (default: https://api.convoso.com/v1)
-  baseUrl: 'https://api.convoso.com/v1',
-
-  // Provide a custom fetch implementation (useful for proxies, testing, or polyfills)
-  fetch: customFetch,
-
-  // Retry 429/5xx responses with exponential backoff + jitter (default: 0 — no retries)
-  maxRetries: 3,
-
-  // Hook called before every request — great for logging or metrics
-  onRequest(path, params) {
-    console.log(`→ POST ${path}`);
-  },
-
-  // Hook called after every response — inspect status, body, or inject side effects
-  onResponse(path, response, data) {
-    console.log(`← ${path} ${response.status}`);
-  },
-});
-```
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `authToken` | `string` | — | **Required.** API token injected into every request |
-| `baseUrl` | `string` | `https://api.convoso.com/v1` | API base URL |
-| `fetch` | `typeof fetch` | `globalThis.fetch` | Custom fetch implementation |
-| `maxRetries` | `number` | `0` | Max retry attempts for 429/5xx responses |
-| `onRequest` | `RequestHook` | — | Callback before each request |
-| `onResponse` | `ResponseHook` | — | Callback after each response |
-
-<br />
-
----
-
-<br />
-
-## Resources
-
-All **37** Convoso API endpoints, organized into **16** typed resource classes:
-
-### Agent APIs
-
-| Resource | Methods | Paginated |
-|----------|---------|:---------:|
-| `client.agentMonitor` | `search()` `logout()` | |
-| `client.agentPerformance` | `search()` | |
-| `client.agentProductivity` | `search()` | |
-
-### Lead Management
-
-| Resource | Methods | Paginated |
-|----------|---------|:---------:|
-| `client.leads` | `search()` `insert()` `update()` `delete()` `getRecordings()` | `searchAll()` `getRecordingsAll()` |
-| `client.leadPost` | `insert()` | |
-| `client.leadValidation` | `search()` | |
-| `client.lists` | `search()` `insert()` `update()` `delete()` | |
-
-### Call Operations
-
-| Resource | Methods | Paginated |
-|----------|---------|:---------:|
-| `client.callbacks` | `search()` `insert()` `update()` `delete()` | `searchAll()` |
-| `client.callLogs` | `retrieve()` `update()` | `retrieveAll()` |
-| `client.campaigns` | `search()` `status()` | |
-
-### Compliance
-
-| Resource | Methods | Paginated |
-|----------|---------|:---------:|
-| `client.dnc` | `search()` `insert()` `update()` `delete()` | `searchAll()` |
-| `client.smsOptOut` | `search()` `insert()` `update()` | `searchAll()` |
-
-### Other
-
-| Resource | Methods | Paginated |
-|----------|---------|:---------:|
-| `client.status` | `search()` `insert()` `update()` | |
-| `client.revenue` | `update()` | |
-| `client.users` | `search()` `recordings()` | |
-| `client.userActivity` | `search()` | |
-
-<br />
-
----
-
-<br />
-
-## Auto-Pagination
-
-Six endpoints support automatic pagination through async generators. Just iterate — the SDK handles offset management, page fetching, and termination for you.
-
-```typescript
-// Iterate through every lead — pagination handled automatically
-for await (const lead of client.leads.searchAll({ list_id: '333', pageSize: 200 })) {
-  console.log(lead.first_name, lead.phone_number);
-}
-
-// Early termination — stops fetching after you break
+// Early termination — stops fetching the moment you break
 let count = 0;
-for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
+for await (const lead of client.leads.searchAll({ list_id: '333' })) {
   if (++count >= 50) break;
 }
+```
 
-// Collect into an array
-const allCallbacks: CallbackRecord[] = [];
-for await (const cb of client.callbacks.searchAll()) {
-  allCallbacks.push(cb);
+### Bulk insert with batch()
+
+```typescript
+import { Convoso, batch } from 'convoso-js';
+
+const client = new Convoso({ authToken: process.env.CONVOSO_TOKEN!, maxRetries: 2 });
+
+const leads = [
+  { list_id: '100', phone_number: '5551234567', first_name: 'Alice' },
+  { list_id: '100', phone_number: '5559876543', first_name: 'Bob' },
+  // ... thousands more
+];
+
+const result = await batch(leads, (lead) => client.leads.insert(lead), {
+  concurrency: 5,
+});
+
+console.log(`${result.successCount} inserted, ${result.errorCount} failed`);
+
+// Inspect individual failures
+for (const item of result.results) {
+  if (item.status === 'rejected') {
+    console.error(`Index ${item.index}: ${item.reason.message}`);
+  }
 }
 ```
 
-| Method | Yields | API Path |
-|--------|--------|----------|
-| `leads.searchAll()` | `LeadRecord` | `/leads/search` |
-| `leads.getRecordingsAll()` | Recording entry | `/leads/get-recordings` |
-| `callbacks.searchAll()` | `CallbackRecord` | `/callbacks/search` |
-| `callLogs.retrieveAll()` | `CallLogRecord` | `/log/retrieve` |
-| `dnc.searchAll()` | `DncRecord` | `/dnc/search` |
-| `smsOptOut.searchAll()` | `SmsOptOutRecord` | `/sms-opt-out/search` |
-
-<br />
-
----
-
-<br />
-
-## Retry Logic
-
-Enable automatic retries for transient failures with exponential backoff and jitter:
+### Monitor agents in real time
 
 ```typescript
-const client = new Convoso({
-  authToken: process.env.CONVOSO_TOKEN!,
-  maxRetries: 3,
-});
-```
+const monitor = await client.agentMonitor.search({ campaign_id: '111' });
+const performance = await client.agentPerformance.search();
 
-**How it works:**
-
-- Retries on status codes: `429`, `500`, `502`, `503`, `504`
-- Backoff formula: `min(1000ms × 2^attempt, 30s) + random jitter (0–1s)`
-- Respects `Retry-After` headers from `429` responses (overrides exponential delay)
-- Non-retryable errors (4xx) are thrown immediately
-
-<br />
-
----
-
-<br />
-
-## Request & Response Hooks
-
-Hooks let you observe or log every API call without modifying resource code. Both sync and async hooks are supported.
-
-```typescript
-const client = new Convoso({
-  authToken: process.env.CONVOSO_TOKEN!,
-
-  // Log every outbound request
-  onRequest(path, params) {
-    console.log(`→ POST ${path}`, Object.fromEntries(params));
-  },
-
-  // Track response times and status codes
-  async onResponse(path, response, data) {
-    await metrics.record({
-      endpoint: path,
-      status: response.status,
-      timestamp: Date.now(),
-    });
-  },
-});
+console.log(`Agents ready: ${monitor.agents_ready}`);
+console.log(`Agents on call: ${monitor.agents_on_call}`);
 ```
 
 <br />
@@ -367,9 +283,62 @@ const client = new Convoso({
 
 <br />
 
-## Error Handling
+## Convoso Connect — Webhook Support
 
-Two typed error classes for distinct failure modes, plus a built-in lookup for **44 Convoso error codes**:
+Convoso Connect is the platform's webhook engine. It fires HTTP requests when call events occur — dispositions, status changes, callbacks, you name it.
+
+**convoso-js** gives you typed interfaces and a parse utility so you can build webhook receivers in minutes, not hours.
+
+```typescript
+import { parseConnectPayload } from 'convoso-js';
+import type { ConnectPayload } from 'convoso-js';
+
+// Express
+app.post('/webhook', (req, res) => {
+  const payload = parseConnectPayload(req.body);
+
+  // Full autocomplete on 76+ fields — lead data, call log, agent info, custom fields
+  console.log(payload.phone_number);    // Lead's primary phone
+  console.log(payload.status);          // Disposition code
+  console.log(payload.call_log_id);     // Call event ID
+  console.log(payload.length_in_sec);   // Talk time
+  console.log(payload.agent_full_name); // Handling agent
+  console.log(payload.recording_url);   // Call recording
+
+  res.json({ success: true });
+});
+
+// Hono
+app.post('/webhook', async (c) => {
+  const payload = parseConnectPayload(await c.req.json());
+  console.log(payload.first_name, payload.campaign_name);
+  return c.text('ok');
+});
+```
+
+### What's included
+
+| Export | What it does |
+|--------|-------------|
+| `ConnectPayload` | Complete webhook payload type — 76+ fields with JSDoc |
+| `ConnectLeadFields` | 43 lead-level fields (name, phone, address, custom data) |
+| `ConnectCallLogFields` | 24 call-level fields (duration, disposition, recording URL) |
+| `ConnectExtraFields` | 12 extra fields (agent info + 10 custom fields) |
+| `parseConnectPayload()` | Type-narrow `unknown` to `ConnectPayload` with validation |
+| `CONNECT_WORKFLOW_EVENTS` | 11 workflow trigger types with descriptions |
+| `CONNECT_WORKFLOW_ACTIONS` | 12 workflow action types with descriptions |
+
+> Full Convoso Connect documentation: **[thornebridge.github.io/convoso-js/connect/overview](https://thornebridge.github.io/convoso-js/connect/overview)**
+
+<br />
+
+---
+
+<br />
+
+## Error Handling That Actually Helps
+
+Two typed error classes for distinct failure modes, plus a built-in lookup for all **44 known Convoso error codes**:
 
 ```typescript
 import { ConvosoApiError, ConvosoHttpError, getErrorDescription } from 'convoso-js';
@@ -378,20 +347,18 @@ try {
   await client.leads.insert({ list_id: '999', phone_number: '5551234567' });
 } catch (err) {
   if (err instanceof ConvosoApiError) {
-    // Convoso returned { success: false } with an error code
+    // Convoso returned { success: false } — you get the code, message, AND description
     console.error(`Code ${err.code}: ${err.description}`);
     //=> "Code 6002: No such list"
   } else if (err instanceof ConvosoHttpError) {
-    // Non-2xx HTTP status (server error, network issue, etc.)
+    // Non-2xx HTTP status
     console.error(`HTTP ${err.status}: ${err.statusText}`);
   }
 }
 
-// Standalone error code lookup
+// Standalone lookup — great for dashboards and alerting
 getErrorDescription(6002); //=> "No such list"
 ```
-
-### Error Class Hierarchy
 
 ```
 ConvosoError (base)
@@ -412,43 +379,50 @@ ConvosoError (base)
 
 <br />
 
-## Convoso Connect
+## Configuration
 
-Convoso Connect is the platform's webhook engine — it fires HTTP requests to external systems when call events occur (dispositions, status changes, callbacks, etc.). The SDK provides typed interfaces and a parse utility for building webhook receivers.
+Every option is optional except `authToken`:
 
 ```typescript
-import { parseConnectPayload } from 'convoso-js';
-import type { ConnectPayload } from 'convoso-js';
+const client = new Convoso({
+  authToken: 'your-api-token',
 
-// Parse and type-narrow an incoming Convoso Connect webhook
-app.post('/webhook', (req, res) => {
-  const payload = parseConnectPayload(req.body);
+  // Override the base URL (default: https://api.convoso.com/v1)
+  baseUrl: 'https://api.convoso.com/v1',
 
-  // Full autocomplete — all 76+ fields are typed with JSDoc
-  console.log(payload.phone_number);   // Lead's primary phone
-  console.log(payload.status);         // Disposition code (abbreviation)
-  console.log(payload.call_log_id);    // Call event ID
-  console.log(payload.length_in_sec);  // Talk time in seconds
-  console.log(payload.agent_full_name);// Handling agent
-  console.log(payload.campaign_name);  // Campaign name
+  // Provide a custom fetch (useful for proxies, testing, or polyfills)
+  fetch: customFetch,
 
-  res.json({ success: true });
+  // Retry 429/5xx with exponential backoff + jitter (default: 0)
+  maxRetries: 3,
+
+  // Request timeout in milliseconds — each retry gets its own timeout
+  timeout: 30_000,
+
+  // Hook before every request — logging, metrics, whatever you need
+  onRequest(path, params) {
+    console.log(`→ POST ${path}`);
+  },
+
+  // Hook after every response — inspect status, parse rate limits, trigger alerts
+  async onResponse(path, response, data) {
+    const limits = parseRateLimitHeaders(response);
+    if (limits.remaining !== undefined && limits.remaining < 10) {
+      console.warn('Rate limit nearly exhausted');
+    }
+  },
 });
 ```
 
-**What's included:**
-
-| Export | Description |
-|--------|-------------|
-| `ConnectPayload` | Complete webhook payload type (lead + call log + extra fields) |
-| `ConnectLeadFields` | 43 lead-level fields (name, phone, address, etc.) |
-| `ConnectCallLogFields` | 24 call-level fields (duration, disposition, recording URL, etc.) |
-| `ConnectExtraFields` | 12 extra fields (agent info + 10 custom fields) |
-| `parseConnectPayload()` | Type-narrow `unknown` → `ConnectPayload` with validation |
-| `CONNECT_WORKFLOW_EVENTS` | 11 workflow trigger types with descriptions |
-| `CONNECT_WORKFLOW_ACTIONS` | 12 workflow action types with descriptions |
-
-> Full Convoso Connect documentation: **[thornebridge.github.io/convoso-js/connect/overview](https://thornebridge.github.io/convoso-js/connect/overview)**
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `authToken` | `string` | — | **Required.** API token injected into every request |
+| `baseUrl` | `string` | `https://api.convoso.com/v1` | API base URL |
+| `fetch` | `typeof fetch` | `globalThis.fetch` | Custom fetch implementation |
+| `maxRetries` | `number` | `0` | Max retry attempts for 429/5xx responses |
+| `timeout` | `number` | — | Request timeout in milliseconds |
+| `onRequest` | `RequestHook` | — | Callback before each request |
+| `onResponse` | `ResponseHook` | — | Callback after each response |
 
 <br />
 
@@ -456,30 +430,50 @@ app.post('/webhook', (req, res) => {
 
 <br />
 
-## Exports
+## Full API Coverage
 
-Everything you need is exported from the top-level package:
+All **37** Convoso API endpoints, organized into **16** typed resource classes:
 
-```typescript
-// Client
-import { Convoso } from 'convoso-js';
-import type { ConvosoOptions } from 'convoso-js';
+### Lead Management
 
-// Errors
-import { ConvosoError, ConvosoApiError, ConvosoHttpError } from 'convoso-js';
-import { CONVOSO_ERROR_CODES, getErrorDescription } from 'convoso-js';
-import type { ConvosoErrorCode } from 'convoso-js';
+| Resource | Methods | Paginated |
+|----------|---------|:---------:|
+| `client.leads` | `search()` `insert()` `update()` `delete()` `getRecordings()` | `searchAll()` `getRecordingsAll()` |
+| `client.leadPost` | `insert()` | |
+| `client.leadValidation` | `search()` | |
+| `client.lists` | `search()` `insert()` `update()` `delete()` | |
 
-// Convoso Connect (webhook types + utility)
-import { parseConnectPayload, CONNECT_WORKFLOW_EVENTS, CONNECT_WORKFLOW_ACTIONS } from 'convoso-js';
-import type { ConnectPayload, ConnectLeadFields, ConnectCallLogFields } from 'convoso-js';
-import type { ConnectWorkflowEvent, ConnectWorkflowAction } from 'convoso-js';
+### Agent APIs
 
-// Request/response types (every resource has full type coverage)
-import type { LeadSearchParams, LeadSearchResponse, LeadRecord } from 'convoso-js';
-import type { DncInsertParams, CallbackSearchParams, CallLogRetrieveParams } from 'convoso-js';
-// ... and every other resource type
-```
+| Resource | Methods | Paginated |
+|----------|---------|:---------:|
+| `client.agentMonitor` | `search()` `logout()` | |
+| `client.agentPerformance` | `search()` | |
+| `client.agentProductivity` | `search()` | |
+
+### Call Operations
+
+| Resource | Methods | Paginated |
+|----------|---------|:---------:|
+| `client.callbacks` | `search()` `insert()` `update()` `delete()` | `searchAll()` |
+| `client.callLogs` | `retrieve()` `update()` | `retrieveAll()` |
+| `client.campaigns` | `search()` `status()` | |
+
+### Compliance
+
+| Resource | Methods | Paginated |
+|----------|---------|:---------:|
+| `client.dnc` | `search()` `insert()` `update()` `delete()` | `searchAll()` |
+| `client.smsOptOut` | `search()` `insert()` `update()` | `searchAll()` |
+
+### Users & System
+
+| Resource | Methods | Paginated |
+|----------|---------|:---------:|
+| `client.status` | `search()` `insert()` `update()` | |
+| `client.revenue` | `update()` | |
+| `client.users` | `search()` `recordings()` | |
+| `client.userActivity` | `search()` | |
 
 <br />
 
@@ -487,49 +481,22 @@ import type { DncInsertParams, CallbackSearchParams, CallLogRetrieveParams } fro
 
 <br />
 
-## Architecture
+## Quality You Can Verify
 
+This isn't a weekend project with a README and a prayer. It's built to production standards:
+
+- **111 tests, 99% code coverage** — every resource, every retry path, every edge case
+- **CI on Node 18, 20, and 22** — lint, format, typecheck, build, test on every push
+- **Automated releases** — tag `v*` triggers full CI, npm publish with provenance, and GitHub Release
+- **28 test suites** — HTTP client, retry logic, pagination, hooks, error codes, Connect, batch, timeout, and all 16 resources
+
+```bash
+npm test               # Run all tests
+npm run coverage       # v8 coverage report
+npm run typecheck      # tsc --noEmit — strict mode
+npm run lint           # ESLint
+npm run format:check   # Prettier
 ```
-convoso-js/
-├── src/
-│   ├── client.ts              Convoso class — composes all 16 resources
-│   ├── http.ts                HttpClient — fetch wrapper, auth injection, retry, hooks
-│   ├── errors.ts              ConvosoError → ConvosoApiError / ConvosoHttpError
-│   ├── error-codes.ts         44 known Convoso error codes with descriptions
-│   ├── connect.ts             parseConnectPayload() — webhook payload type narrowing
-│   ├── connect-events.ts      Workflow event triggers + action type constants
-│   ├── index.ts               Public API barrel export
-│   ├── resources/
-│   │   ├── base.ts            BaseResource — holds HttpClient reference
-│   │   ├── leads.ts           LeadsResource (search, insert, update, delete, recordings)
-│   │   ├── lists.ts           ListsResource (search, insert, update, delete)
-│   │   ├── dnc.ts             DncResource (search, insert, update, delete)
-│   │   ├── callbacks.ts       CallbacksResource (search, insert, update, delete)
-│   │   ├── call-logs.ts       CallLogsResource (retrieve, update)
-│   │   ├── campaigns.ts       CampaignsResource (search, status)
-│   │   ├── agent-monitor.ts   AgentMonitorResource (search, logout)
-│   │   ├── agent-*.ts         AgentPerformance, AgentProductivity
-│   │   ├── status.ts          StatusResource (search, insert, update)
-│   │   ├── revenue.ts         RevenueResource (update)
-│   │   ├── users.ts           UsersResource (search, recordings)
-│   │   ├── user-activity.ts   UserActivityResource (search)
-│   │   ├── lead-post.ts       LeadPostResource (insert)
-│   │   ├── lead-validation.ts LeadValidationResource (search)
-│   │   └── sms-opt-out.ts     SmsOptOutResource (search, insert, update)
-│   └── types/                 Per-resource param/response interfaces with JSDoc
-├── tests/                     111 tests, 99% coverage (vitest + v8)
-├── examples/                  3 runnable integration examples
-├── docs/                      17 API reference markdown files (source of truth)
-└── docs-site/                 VitePress documentation site
-```
-
-### Design Decisions
-
-- **No response normalization** — responses are returned exactly as Convoso sends them
-- **`auth_token` injected automatically** — never appears in method parameters
-- **Null/undefined stripping** — cleaned from params before URL encoding
-- **Dual format** — ESM + CJS with full `.d.ts` type declarations and source maps
-- **All POST** — every Convoso endpoint uses POST with `application/x-www-form-urlencoded`
 
 <br />
 
@@ -539,111 +506,18 @@ convoso-js/
 
 ## Documentation
 
-Full documentation at **[thornebridge.github.io/convoso-js](https://thornebridge.github.io/convoso-js/)**:
+Full docs at **[thornebridge.github.io/convoso-js](https://thornebridge.github.io/convoso-js/)**:
 
-| Guide | Description |
-|-------|-------------|
+| Guide | What you'll learn |
+|-------|-------------------|
 | [Getting Started](https://thornebridge.github.io/convoso-js/guide/getting-started) | Install, first API call, resource overview |
-| [Configuration](https://thornebridge.github.io/convoso-js/guide/configuration) | All client options explained |
+| [Configuration](https://thornebridge.github.io/convoso-js/guide/configuration) | Every client option explained |
 | [Error Handling](https://thornebridge.github.io/convoso-js/guide/error-handling) | Error classes + full 44-code reference table |
 | [Retry & Hooks](https://thornebridge.github.io/convoso-js/guide/retry-and-hooks) | Backoff strategy, Retry-After, middleware patterns |
 | [Auto-Pagination](https://thornebridge.github.io/convoso-js/guide/pagination) | Async generators for bulk data operations |
 | [Examples](https://thornebridge.github.io/convoso-js/guide/examples) | Lead import, agent dashboard, DNC sync |
 | [Convoso Connect](https://thornebridge.github.io/convoso-js/connect/overview) | Webhook engine — adaptors, workflows, integrations (7 pages) |
 | [API Reference](https://thornebridge.github.io/convoso-js/api-reference/) | Complete endpoint documentation (17 pages) |
-
-<br />
-
----
-
-<br />
-
-## Examples
-
-The [`examples/`](examples/) directory includes three runnable integration patterns:
-
-### Lead Import — Bulk insertion with error handling
-```typescript
-import { Convoso, ConvosoApiError } from 'convoso-js';
-
-const client = new Convoso({
-  authToken: process.env.CONVOSO_TOKEN!,
-  maxRetries: 3,
-});
-
-const leads = [
-  { list_id: '333', phone_number: '5551234567', first_name: 'Alice' },
-  { list_id: '333', phone_number: '5559876543', first_name: 'Bob' },
-];
-
-for (const lead of leads) {
-  try {
-    await client.leads.insert(lead);
-  } catch (err) {
-    if (err instanceof ConvosoApiError) {
-      console.error(`Failed: ${lead.phone_number} — ${err.description}`);
-    }
-  }
-}
-```
-
-### Agent Dashboard — Real-time monitoring
-```typescript
-const monitor = await client.agentMonitor.search({ campaign_id: '111' });
-const performance = await client.agentPerformance.search();
-
-console.log(`Agents ready: ${monitor.agents_ready}`);
-console.log(`Agents on call: ${monitor.agents_on_call}`);
-```
-
-### DNC Sync — Auto-paginated compliance
-```typescript
-const dncNumbers: string[] = [];
-for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
-  dncNumbers.push(entry.phone_number);
-}
-console.log(`Synced ${dncNumbers.length} DNC entries`);
-```
-
-<br />
-
----
-
-<br />
-
-## Testing
-
-111 tests with **99% code coverage**, tested across Node.js 18, 20, and 22:
-
-```bash
-npm test                # Run all tests
-npm run test:watch      # Watch mode
-npm run coverage        # Generate v8 coverage report
-```
-
-Test suite covers:
-- HTTP client behavior (auth injection, parameter encoding, error detection)
-- Retry logic (exponential backoff, jitter, Retry-After headers)
-- Auto-pagination (all 6 async generators)
-- Request/response hooks (sync and async)
-- Error classes and 44 error code lookups
-- All 16 resource classes
-
-<br />
-
----
-
-<br />
-
-## CI/CD
-
-Automated workflows via GitHub Actions:
-
-| Workflow | Trigger | What it does |
-|----------|---------|--------------|
-| **CI** | Push / PR to `main` | Lint, format check, typecheck, build, and test on Node 18, 20, 22 |
-| **Docs** | Push to `main` | Builds VitePress site and deploys to GitHub Pages |
-| **Release** | Tag `v*` | Full CI suite → publish to npm with provenance → create GitHub Release |
 
 <br />
 
