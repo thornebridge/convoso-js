@@ -1,4 +1,9 @@
-import type { BatchOptions, BatchResult, BatchItemSuccess, BatchItemError } from './types/common.js';
+import type {
+  BatchOptions,
+  BatchResult,
+  BatchItemSuccess,
+  BatchItemError,
+} from './types/common.js';
 
 /**
  * Execute an async operation for each item with concurrency control.

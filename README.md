@@ -26,6 +26,7 @@
   <a href="https://thornebridge.github.io/convoso-js/">Documentation</a> &nbsp;&middot;&nbsp;
   <a href="https://thornebridge.github.io/convoso-js/guide/getting-started">Getting Started</a> &nbsp;&middot;&nbsp;
   <a href="https://thornebridge.github.io/convoso-js/api-reference/">API Reference</a> &nbsp;&middot;&nbsp;
+  <a href="https://thornebridge.github.io/convoso-js/connect/overview">Convoso Connect</a> &nbsp;&middot;&nbsp;
   <a href="https://github.com/thornebridge/convoso-js/releases">Changelog</a>
 </p>
 
@@ -411,6 +412,50 @@ ConvosoError (base)
 
 <br />
 
+## Convoso Connect
+
+Convoso Connect is the platform's webhook engine — it fires HTTP requests to external systems when call events occur (dispositions, status changes, callbacks, etc.). The SDK provides typed interfaces and a parse utility for building webhook receivers.
+
+```typescript
+import { parseConnectPayload } from 'convoso-js';
+import type { ConnectPayload } from 'convoso-js';
+
+// Parse and type-narrow an incoming Convoso Connect webhook
+app.post('/webhook', (req, res) => {
+  const payload = parseConnectPayload(req.body);
+
+  // Full autocomplete — all 76+ fields are typed with JSDoc
+  console.log(payload.phone_number);   // Lead's primary phone
+  console.log(payload.status);         // Disposition code (abbreviation)
+  console.log(payload.call_log_id);    // Call event ID
+  console.log(payload.length_in_sec);  // Talk time in seconds
+  console.log(payload.agent_full_name);// Handling agent
+  console.log(payload.campaign_name);  // Campaign name
+
+  res.json({ success: true });
+});
+```
+
+**What's included:**
+
+| Export | Description |
+|--------|-------------|
+| `ConnectPayload` | Complete webhook payload type (lead + call log + extra fields) |
+| `ConnectLeadFields` | 43 lead-level fields (name, phone, address, etc.) |
+| `ConnectCallLogFields` | 24 call-level fields (duration, disposition, recording URL, etc.) |
+| `ConnectExtraFields` | 12 extra fields (agent info + 10 custom fields) |
+| `parseConnectPayload()` | Type-narrow `unknown` → `ConnectPayload` with validation |
+| `CONNECT_WORKFLOW_EVENTS` | 11 workflow trigger types with descriptions |
+| `CONNECT_WORKFLOW_ACTIONS` | 12 workflow action types with descriptions |
+
+> Full Convoso Connect documentation: **[thornebridge.github.io/convoso-js/connect/overview](https://thornebridge.github.io/convoso-js/connect/overview)**
+
+<br />
+
+---
+
+<br />
+
 ## Exports
 
 Everything you need is exported from the top-level package:
@@ -424,6 +469,11 @@ import type { ConvosoOptions } from 'convoso-js';
 import { ConvosoError, ConvosoApiError, ConvosoHttpError } from 'convoso-js';
 import { CONVOSO_ERROR_CODES, getErrorDescription } from 'convoso-js';
 import type { ConvosoErrorCode } from 'convoso-js';
+
+// Convoso Connect (webhook types + utility)
+import { parseConnectPayload, CONNECT_WORKFLOW_EVENTS, CONNECT_WORKFLOW_ACTIONS } from 'convoso-js';
+import type { ConnectPayload, ConnectLeadFields, ConnectCallLogFields } from 'convoso-js';
+import type { ConnectWorkflowEvent, ConnectWorkflowAction } from 'convoso-js';
 
 // Request/response types (every resource has full type coverage)
 import type { LeadSearchParams, LeadSearchResponse, LeadRecord } from 'convoso-js';
@@ -446,6 +496,8 @@ convoso-js/
 │   ├── http.ts                HttpClient — fetch wrapper, auth injection, retry, hooks
 │   ├── errors.ts              ConvosoError → ConvosoApiError / ConvosoHttpError
 │   ├── error-codes.ts         44 known Convoso error codes with descriptions
+│   ├── connect.ts             parseConnectPayload() — webhook payload type narrowing
+│   ├── connect-events.ts      Workflow event triggers + action type constants
 │   ├── index.ts               Public API barrel export
 │   ├── resources/
 │   │   ├── base.ts            BaseResource — holds HttpClient reference
@@ -465,7 +517,7 @@ convoso-js/
 │   │   ├── lead-validation.ts LeadValidationResource (search)
 │   │   └── sms-opt-out.ts     SmsOptOutResource (search, insert, update)
 │   └── types/                 Per-resource param/response interfaces with JSDoc
-├── tests/                     69 tests, 99% coverage (vitest + v8)
+├── tests/                     111 tests, 99% coverage (vitest + v8)
 ├── examples/                  3 runnable integration examples
 ├── docs/                      17 API reference markdown files (source of truth)
 └── docs-site/                 VitePress documentation site
@@ -497,6 +549,7 @@ Full documentation at **[thornebridge.github.io/convoso-js](https://thornebridge
 | [Retry & Hooks](https://thornebridge.github.io/convoso-js/guide/retry-and-hooks) | Backoff strategy, Retry-After, middleware patterns |
 | [Auto-Pagination](https://thornebridge.github.io/convoso-js/guide/pagination) | Async generators for bulk data operations |
 | [Examples](https://thornebridge.github.io/convoso-js/guide/examples) | Lead import, agent dashboard, DNC sync |
+| [Convoso Connect](https://thornebridge.github.io/convoso-js/connect/overview) | Webhook engine — adaptors, workflows, integrations (7 pages) |
 | [API Reference](https://thornebridge.github.io/convoso-js/api-reference/) | Complete endpoint documentation (17 pages) |
 
 <br />
@@ -560,7 +613,7 @@ console.log(`Synced ${dncNumbers.length} DNC entries`);
 
 ## Testing
 
-69 tests with **99% code coverage**, tested across Node.js 18, 20, and 22:
+111 tests with **99% code coverage**, tested across Node.js 18, 20, and 22:
 
 ```bash
 npm test                # Run all tests
@@ -609,7 +662,7 @@ npm install
 ```bash
 npm run typecheck       # tsc --noEmit
 npm run build           # tsup → ESM + CJS + .d.ts
-npm test                # vitest (69 tests)
+npm test                # vitest (111 tests)
 npm run lint            # ESLint
 npm run format          # Prettier
 npm run docs:dev        # VitePress dev server

@@ -129,9 +129,10 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'API Reference', link: '/api-reference/' },
+      { text: 'Connect', link: '/connect/overview' },
       { text: 'Resources', link: '/resources/' },
       {
-        text: 'v0.2.0',
+        text: 'v0.3.0',
         items: [
           { text: 'npm', link: 'https://www.npmjs.com/package/convoso-js' },
           { text: 'Changelog', link: 'https://github.com/thornebridge/convoso-js/releases' },
@@ -201,6 +202,20 @@ export default defineConfig({
             { text: 'Revenue', link: '/api-reference/revenue' },
             { text: 'Users', link: '/api-reference/users' },
             { text: 'User Activity', link: '/api-reference/user-activity' },
+          ],
+        },
+      ],
+      '/connect/': [
+        {
+          text: 'Convoso Connect',
+          items: [
+            { text: 'Overview', link: '/connect/overview' },
+            { text: 'Adaptors', link: '/connect/adaptors' },
+            { text: 'Endpoints', link: '/connect/endpoints' },
+            { text: 'Workflows', link: '/connect/workflows' },
+            { text: 'Plugins & Campaigns', link: '/connect/plugins' },
+            { text: 'Integrations & Inbound Flow', link: '/connect/integrations' },
+            { text: 'Technical Reference', link: '/connect/technical-reference' },
           ],
         },
       ],

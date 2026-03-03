@@ -11,7 +11,7 @@ This document outlines the planned direction for convoso-js. Priorities may shif
 
 ## v0.3.0
 
-- [ ] **Webhook types** — TypeScript types for Convoso webhook payloads
+- [x] **Webhook types** — `ConnectPayload`, `ConnectLeadFields`, `ConnectCallLogFields`, `ConnectExtraFields` interfaces + `parseConnectPayload()` utility + `CONNECT_WORKFLOW_EVENTS` / `CONNECT_WORKFLOW_ACTIONS` const maps
 - [ ] **Event emitter** — optional event-based interface alongside hooks
 - [ ] **Response caching** — opt-in caching layer for idempotent reads
 

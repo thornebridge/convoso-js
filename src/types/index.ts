@@ -1,4 +1,5 @@
 export * from './common.js';
+export * from './connect.js';
 export * from './agent-monitor.js';
 export * from './agent-performance.js';
 export * from './agent-productivity.js';

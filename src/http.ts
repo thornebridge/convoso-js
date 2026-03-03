@@ -62,9 +62,7 @@ export class HttpClient {
       }
 
       const controller = this.timeout ? new AbortController() : undefined;
-      const timer = controller
-        ? setTimeout(() => controller.abort(), this.timeout)
-        : undefined;
+      const timer = controller ? setTimeout(() => controller.abort(), this.timeout) : undefined;
 
       let response: Response;
       try {

@@ -5,4 +5,7 @@ export { CONVOSO_ERROR_CODES, getErrorDescription } from './error-codes.js';
 export type { ConvosoErrorCode } from './error-codes.js';
 export { parseRateLimitHeaders } from './rate-limit.js';
 export { batch } from './batch.js';
+export { parseConnectPayload } from './connect.js';
+export { CONNECT_WORKFLOW_EVENTS, CONNECT_WORKFLOW_ACTIONS } from './connect-events.js';
+export type { ConnectWorkflowEvent, ConnectWorkflowAction } from './connect-events.js';
 export * from './types/index.js';
