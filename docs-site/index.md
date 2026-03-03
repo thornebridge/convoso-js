@@ -3,7 +3,10 @@ layout: home
 hero:
   name: convoso-js
   text: TypeScript SDK for the Convoso API
-  tagline: Zero dependencies. Fully typed. Auto-pagination, retry logic, and hooks built in.
+  tagline: Zero dependencies. Fully typed. Auto-pagination, retry, and hooks built in.
+  image:
+    src: https://a-us.storyblok.com/f/1020997/0x0/eb5169aa14/logo.svg
+    alt: Convoso
   actions:
     - theme: brand
       text: Get Started
@@ -16,7 +19,7 @@ hero:
       link: https://github.com/thornebridge/convoso-js
 features:
   - title: Fully Typed
-    details: Every parameter and response is typed with JSDoc — autocomplete and type safety out of the box.
+    details: Every parameter and response has TypeScript types with JSDoc. Autocomplete and type safety out of the box.
     icon: "{ }"
   - title: Zero Dependencies
     details: Uses native fetch (Node.js 18+). No bloated dependency trees to audit or update.
@@ -35,6 +38,12 @@ features:
     icon: "\u2611"
 ---
 
+<br />
+
+<div style="text-align: center; margin-bottom: 1.5rem;">
+  <span style="display: inline-block; padding: 3px 14px; border-radius: 14px; background: rgba(120, 86, 255, 0.1); color: #7856ff; font-size: 0.85em; font-weight: 500; border: 1px solid rgba(120, 86, 255, 0.25);">Community project — not affiliated with Convoso</span>
+</div>
+
 ## Quick Start
 
 ```bash
@@ -44,14 +53,30 @@ npm install convoso-js
 ```typescript
 import { Convoso } from 'convoso-js';
 
-const client = new Convoso({ authToken: process.env.CONVOSO_TOKEN! });
+const client = new Convoso({
+  authToken: process.env.CONVOSO_TOKEN!,
+  maxRetries: 3,
+});
 
-// Search leads with auto-pagination
-for await (const lead of client.leads.searchAll({ list_id: '333' })) {
-  console.log(lead.first_name, lead.last_name);
+// Search leads
+const { results } = await client.leads.search({ list_id: '333', limit: 100 });
+
+// Auto-paginate through all DNC entries
+for await (const entry of client.dnc.searchAll({ campaign_id: '500' })) {
+  console.log(entry.phone_number);
 }
+
+// Monitor agents in real time
+const monitor = await client.agentMonitor.search();
+console.log(`${monitor.agents_ready} agents ready`);
 ```
 
-::: tip Community Project
-This is an unofficial SDK built and maintained by [Thornebridge](https://github.com/thornebridge). It is not affiliated with or endorsed by Convoso.
-:::
+## Why convoso-js?
+
+The Convoso API uses POST requests with URL-encoded bodies, returns inconsistent response shapes across endpoints, and has undocumented error codes. This SDK handles all of that:
+
+- **Auth injection** — `auth_token` added to every request automatically
+- **Error code lookup** — 44 known error codes with human-readable descriptions
+- **Null/undefined stripping** — cleaned from params before encoding
+- **Response types** — every endpoint response is fully typed, matching the API exactly
+- **Dual format** — ships ESM + CJS with `.d.ts` declarations

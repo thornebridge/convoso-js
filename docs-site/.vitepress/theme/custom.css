@@ -1,20 +1,104 @@
+/*
+ * Convoso Brand Palette
+ * Primary:   #5028BD (Purple Heart)
+ * Accent:    #7856FF (Cornflower — logo color)
+ * Highlight: #FDFF6B (Laser Lemon)
+ */
+
 :root {
-  --vp-c-brand-1: #3b82f6;
-  --vp-c-brand-2: #2563eb;
-  --vp-c-brand-3: #1d4ed8;
-  --vp-c-brand-soft: rgba(59, 130, 246, 0.14);
+  --vp-c-brand-1: #7856ff;
+  --vp-c-brand-2: #6640f0;
+  --vp-c-brand-3: #5028bd;
+  --vp-c-brand-soft: rgba(120, 86, 255, 0.14);
+
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #fff;
+  --vp-button-brand-bg: #7856ff;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: #fff;
+  --vp-button-brand-hover-bg: #6640f0;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: #fff;
+  --vp-button-brand-active-bg: #5028bd;
+
+  --vp-custom-block-tip-border: #7856ff;
+  --vp-custom-block-tip-text: #5028bd;
+  --vp-custom-block-tip-bg: rgba(120, 86, 255, 0.06);
+  --vp-custom-block-tip-code-bg: rgba(120, 86, 255, 0.08);
 }
 
 .dark {
-  --vp-c-brand-1: #60a5fa;
-  --vp-c-brand-2: #3b82f6;
-  --vp-c-brand-3: #2563eb;
-  --vp-c-brand-soft: rgba(96, 165, 250, 0.14);
+  --vp-c-brand-1: #9b7dff;
+  --vp-c-brand-2: #7856ff;
+  --vp-c-brand-3: #6640f0;
+  --vp-c-brand-soft: rgba(155, 125, 255, 0.14);
+
+  --vp-button-brand-bg: #7856ff;
+  --vp-button-brand-hover-bg: #9b7dff;
+  --vp-button-brand-active-bg: #6640f0;
+
+  --vp-custom-block-tip-border: #7856ff;
+  --vp-custom-block-tip-text: #c4b5fd;
+  --vp-custom-block-tip-bg: rgba(120, 86, 255, 0.08);
+  --vp-custom-block-tip-code-bg: rgba(120, 86, 255, 0.12);
 }
 
+/* Hero section */
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  --vp-home-hero-image-background-image: linear-gradient(135deg, #3b82f620 0%, #1d4ed820 100%);
-  --vp-home-hero-image-filter: blur(40px);
+  --vp-home-hero-name-background: linear-gradient(135deg, #7856ff 0%, #5028bd 100%);
+  --vp-home-hero-image-background-image: linear-gradient(135deg, #7856ff20 0%, #5028bd20 100%);
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+.dark {
+  --vp-home-hero-image-background-image: linear-gradient(135deg, #7856ff30 0%, #5028bd30 100%);
+}
+
+/* Feature cards — yellow accent on hover */
+.VPFeature:hover {
+  border-color: #7856ff !important;
+}
+
+.VPFeature .icon {
+  color: #7856ff;
+}
+
+/* Nav logo text weight */
+.VPNavBarTitle .title {
+  font-weight: 700;
+}
+
+/* Sidebar active link */
+.VPSidebarItem.is-active > .item > .link > .text {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+/* Code block accent bar */
+div[class*='language-'] {
+  border-top: 2px solid var(--vp-c-brand-soft);
+}
+
+/* Custom badge for "unofficial" */
+.disclaimer-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: rgba(120, 86, 255, 0.1);
+  color: var(--vp-c-brand-1);
+  font-size: 0.85em;
+  font-weight: 500;
+  border: 1px solid var(--vp-c-brand-soft);
+}
+
+/* Yellow highlight for special callouts */
+.vp-doc .custom-block.warning {
+  border-color: #eacc3c;
+  background-color: rgba(253, 255, 107, 0.06);
+}
+
+.dark .vp-doc .custom-block.warning {
+  border-color: #d4b82c;
+  background-color: rgba(253, 255, 107, 0.04);
 }

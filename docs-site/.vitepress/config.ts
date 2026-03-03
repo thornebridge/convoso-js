@@ -7,7 +7,10 @@ export default defineConfig({
   lastUpdated: true,
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/convoso-js/logo.svg' }],
+    ['link', { rel: 'icon', href: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>%F0%9F%9F%AA</text></svg>' }],
+    ['meta', { name: 'theme-color', content: '#7856ff' }],
+    ['meta', { property: 'og:title', content: 'convoso-js' }],
+    ['meta', { property: 'og:description', content: 'Unofficial TypeScript SDK for the Convoso API' }],
   ],
 
   markdown: {
