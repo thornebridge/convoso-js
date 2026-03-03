@@ -35,9 +35,15 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
+          registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm run build
-      - run: npm publish --provenance --access public
+      - name: Publish with OIDC provenance
+        run: |
+          # Strip the _authToken placeholder that setup-node writes so npm
+          # falls back to OIDC token exchange (trusted publishing).
+          sed -i '/_authToken/d' "$HOME/.npmrc"
+          npm publish --provenance --access public
 
   github-release:
     needs: publish
